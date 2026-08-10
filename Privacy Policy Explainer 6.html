@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy Explainer Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced background with animated particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 118, 117, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.2) 0%, transparent 50%);
+            z-index: -1;
+            animation: particleFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(1deg); }
+            50% { transform: translateY(-10px) rotate(-0.5deg); }
+            75% { transform: translateY(-30px) rotate(0.5deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced header with better typography hierarchy */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeInDown 0.8s ease-out;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+            border-radius: 2px;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 25px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        /* Enhanced badge for "Pro" version */
+        .pro-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Enhanced main content with better spacing and hover effects */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            align-items: start;
+        }
+
+        .input-section, .output-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 
+                0 25px 50px rgba(0,0,0,0.1),
+                0 0 0 1px rgba(255,255,255,0.3);
+            backdrop-filter: blur(20px);
+            animation: fadeInUp 0.8s ease-out;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .input-section::before, .output-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .input-section:hover, .output-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 35px 70px rgba(0,0,0,0.15),
+                0 0 0 1px rgba(255,255,255,0.4);
+        }
+
+        /* Enhanced section titles with better visual hierarchy */
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #2d3748;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 36px;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, transparent);
+            border-radius: 1px;
+        }
+
+        .icon {
+            width: 28px;
+            height: 28px;
+            fill: #667eea;
+            filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.2));
+            transition: all 0.3s ease;
+        }
+
+        .section-title:hover .icon {
+            transform: scale(1.1) rotate(5deg);
+            fill: #5a67d8;
+        }
+
+        /* Enhanced input with better focus states and interactions */
+        .input-container {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .privacy-input {
+            width: 100%;
+            min-height: 420px;
+            border: 3px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            font-size: 15px;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+            resize: vertical;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, #fafafa 0%, #f8fafc 100%);
+            line-height: 1.7;
+            color: #2d3748;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .privacy-input:focus {
+            border-color: #667eea;
+            outline: none;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            box-shadow: 
+                0 0 0 4px rgba(102, 126, 234, 0.15),
+                inset 0 2px 4px rgba(102, 126, 234, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .privacy-input::placeholder {
+            color: #a0aec0;
+            font-style: italic;
+            transition: opacity 0.3s ease;
+        }
+
+        .privacy-input:focus::placeholder {
+            opacity: 0.7;
+        }
+
+        /* Enhanced buttons with better hover states and micro-interactions */
+        .input-tools {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.25px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a67d8 0%, #6b73b8 100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px) scale(1.01);
+            transition: all 0.1s ease;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-color: #cbd5e0;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(-1px) scale(1.01);
+            transition: all 0.1s ease;
+        }
+
+        /* Loading button state */
+        .btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            right: 12px;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Enhanced character counter with better styling */
+        .char-count {
+            position: absolute;
+            bottom: -30px;
+            right: 0;
+            font-size: 13px;
+            color: #718096;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .char-count.warning {
+            color: #d69e2e;
+            border-color: #faf089;
+            background: rgba(255, 235, 59, 0.1);
+        }
+
+        .char-count.error {
+            color: #e53e3e;
+            border-color: #feb2b2;
+            background: rgba(255, 82, 82, 0.1);
+        }
+
+        .results-container {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        /* Enhanced collapsibles with better animations and states */
+        .collapsible {
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            background: white;
+        }
+
+        .collapsible:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border-color: #cbd5e0;
+            transform: translateY(-2px);
+        }
+
+        .collapsible-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            padding: 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: #2d3748;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            user-select: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.25px;
+        }
+
+        .collapsible-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .collapsible-header:hover::before {
+            width: 8px;
+        }
+
+        .collapsible-header:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            color: #1a202c;
+        }
+
+        .collapsible-header:active {
+            transform: scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .collapsible-header.summary {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 50%, #81e6d9 100%);
+            color: #234e52;
+            border-left: 4px solid #38b2ac;
+        }
+
+        .collapsible-header.summary::before {
+            background: linear-gradient(135deg, #38b2ac, #319795);
+        }
+
+        .collapsible-header.highlights {
+            background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 50%, #fdba74 100%);
+            color: #92400e;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .collapsible-header.highlights::before {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .collapsible-header.red-flags {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 50%, #fca5a5 100%);
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+
+        .collapsible-header.red-flags::before {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .collapsible-header.recommendations {
+            background: linear-gradient(135deg, #f0f9ff 0%, #bfdbfe 50%, #93c5fd 100%);
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .collapsible-header.recommendations::before {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .chevron {
+            width: 24px;
+            height: 24px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            fill: currentColor;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .chevron.rotate {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+        }
+
+        .collapsible-content.open {
+            max-height: 2000px;
+        }
+
+        .collapsible-body {
+            padding: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+            border-top: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        /* Enhanced risk badges with better visual hierarchy */
+        .risk-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .risk-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .risk-high {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+            color: #991b1b;
+            border: 2px solid #f87171;
+        }
+
+        .risk-high:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(248, 113, 113, 0.3);
+        }
+
+        .risk-medium {
+            background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 100%);
+            color: #92400e;
+            border: 2px solid #fbbf24;
+        }
+
+        .risk-medium:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+
+        .risk-low {
+            background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
+            color: #166534;
+            border: 2px solid #34d399;
+        }
+
+        .risk-low:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(52, 211, 153, 0.3);
+        }
+
+        /* Enhanced content items with better visual design */
+        .highlight-item, .red-flag-item, .recommendation-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid;
+        }
+
+        .highlight-item::before, .red-flag-item::before, .recommendation-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .highlight-item:hover::before, .red-flag-item:hover::before, .recommendation-item:hover::before {
+            opacity: 0.05;
+        }
+
+        .highlight-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-left-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        .highlight-item::before {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .highlight-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .red-flag-item {
+            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+            border-left-color: #ef4444;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+        }
+
+        .red-flag-item::before {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .red-flag-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
+        }
+
+        .recommendation-item {
+            background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+            border-left-color: #3b82f6;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+        }
+
+        .recommendation-item::before {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .recommendation-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        .highlight-item strong, .red-flag-item strong, .recommendation-item strong {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 700;
+        }
+
+        .highlight-item p, .red-flag-item p, .recommendation-item p {
+            margin: 0;
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        /* Enhanced stat cards with better visual design */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 32px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 
+                0 12px 30px rgba(0,0,0,0.08),
+                0 0 0 1px rgba(255,255,255,0.3);
+            backdrop-filter: blur(20px);
+            animation: fadeInUp 0.8s ease-out;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 50px rgba(0,0,0,0.15),
+                0 0 0 1px rgba(255,255,255,0.4);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-number {
+            transform: scale(1.1);
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 0.95rem;
+            margin-top: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }-label {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* Enhanced loading and sample policies sections */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #667eea;
+            font-weight: 500;
+            padding: 40px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            border: 2px dashed #cbd5e0;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.2));
+        }
+
+        .sample-policies {
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            border: 2px solid #bfdbfe;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sample-policies::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8, #3b82f6);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .sample-policies h4 {
+            color: #1e40af;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sample-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sample-link {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #bfdbfe;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .sample-link:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: #3b82f6;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.2);
+            color: #1d4ed8;
+        }
+
+        .sample-link:active {
+            transform: translateY(-1px) scale(1.02);
+            transition: all 0.1s ease;
+        }
+
+        /* Enhanced responsive design with better breakpoints */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tooltip system */
+        .tooltip {
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a202c;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #1a202c;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .tooltip:hover::before,
+        .tooltip:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Progress bar for analysis */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-container.show {
+            display: block;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            animation: shimmer 2s linear infinite;
+        }
+
+        /* Empty state styling */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #718096;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Success state styling */
+        .success-message {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #166534;
+            display: none;
+            animation: slideInFromTop 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Focus trap for accessibility */
+        .focus-trap:focus {
+            outline: 3px solid #667eea;
+            outline-offset: 2px;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            }
+            
+            .input-section, .output-section {
+                background: rgba(45, 55, 72, 0.95);
+                color: #f7fafc;
+            }
+            
+            .privacy-input {
+                background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+                color: #f7fafc;
+                border-color: #4a5568;
+            }
+            
+            .collapsible {
+                background: #2d3748;
+                border-color: #4a5568;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                gap: 30px;
+            }
+            
+            .input-section, .output-section {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .header h1 {
+                font-size: 2.4rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .input-tools {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .input-section, .output-section {
+                padding: 25px;
+                border-radius: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .privacy-input {
+                min-height: 350px;
+                padding: 20px;
+                font-size: 14px;
+            }
+            
+            .btn {
+                padding: 16px 24px;
+                font-size: 16px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .stat-card {
+                padding: 28px;
+            }
+            
+            .collapsible-header {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .collapsible-body {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .input-tools {
+                flex-direction: column;
+            }
+            
+            .btn {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .sample-links {
+                justify-content: center;
+            }
+            
+            .risk-badge {
+                font-size: 11px;
+                padding: 5px 12px;
+            }
+            
+            .privacy-input {
+                min-height: 300px;
+                padding: 16px;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .btn-primary {
+                background: #000;
+                border: 2px solid #fff;
+            }
+            
+            .btn-secondary {
+                background: #fff;
+                border: 2px solid #000;
+                color: #000;
+            }
+            
+            .collapsible {
+                border-width: 2px;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .btn:hover {
+                transform: none;
+            }
+            
+            .stat-card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 Privacy Policy Explainer Pro</h1>
+            <p>Decode complex privacy policies with AI-powered analysis</p>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2 class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                    Privacy Policy Input
+                </h2>
+                <div class="input-container">
+                    <textarea 
+                        id="privacyInput" 
+                        class="privacy-input" 
+                        placeholder="Paste your privacy policy here... (or use sample policies below)"
+                    ></textarea>
+                    <div class="char-count" id="charCount">0 characters</div>
+                </div>
+                <div class="input-tools">
+                    <button class="btn btn-primary" onclick="analyzePolicy()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                        </svg>
+                        Analyze Policy
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearInput()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                        </svg>
+                        Clear
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportResults()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        </svg>
+                        Export PDF
+                    </button>
+                </div>
+                
+                <div class="sample-policies">
+                    <h4>📋 Try Sample Policies:</h4>
+                    <div class="sample-links">
+                        <a href="#" class="sample-link" onclick="loadSample('facebook')">Facebook</a>
+                        <a href="#" class="sample-link" onclick="loadSample('google')">Google</a>
+                        <a href="#" class="sample-link" onclick="loadSample('amazon')">Amazon</a>
+                        <a href="#" class="sample-link" onclick="loadSample('microsoft')">Microsoft</a>
+                        <a href="#" class="sample-link" onclick="loadSample('apple')">Apple</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <h2 class="section-title">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M11,15H13V17H11V15M11,7H13V13H11V7M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20Z"/>
+                    </svg>
+                    Analysis Results
+                </h2>
+                
+                <div id="loadingIndicator" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <span>Analyzing privacy policy...</span>
+                </div>
+
+                <div id="noResultsMessage">
+                    <p style="text-align: center; color: #718096; margin: 40px 0;">
+                        📝 Paste a privacy policy and click "Analyze Policy" to get started
+                    </p>
+                </div>
+
+                <div class="results-container" id="resultsContainer">
+                    <div class="stats-container" id="statsContainer"></div>
+                    <div id="analysisResults"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let analysisData = {};
+
+        // Character count
+        document.getElementById('privacyInput').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('charCount').textContent = `${count.toLocaleString()} characters`;
+        });
+
+        // Sample policy loader
+        const samplePolicies = {
+            facebook: `Data Policy - Facebook
+
+We collect information to provide better services to all of our users. We collect information when you create an account, use our services, interact with our ads, or communicate with us. This includes:
+
+• Information you provide directly (name, email, phone number, profile information)
+• Information about your device (browser type, IP address, mobile device identifiers)
+• Information about your activity (posts, likes, shares, messages, search queries)
+• Location information (GPS data, WiFi networks, cell towers)
+• Information from third parties (advertisers, app developers, data brokers)
+
+We use this information to:
+- Personalize your experience and show relevant ads
+- Improve our products and develop new features  
+- Communicate with you about our services
+- Ensure safety and security on our platform
+- Comply with legal obligations
+
+We share your information with:
+- Other Facebook companies (Instagram, WhatsApp)
+- Third-party partners and service providers
+- Advertisers (in aggregated, non-personally identifiable form)
+- Law enforcement when legally required
+
+Your data may be stored and processed in countries outside your residence, including the United States, where privacy laws may be different.
+
+You can control some aspects of data collection through your account settings, but certain data collection is necessary for our services to function.`,
+            
+            google: `Google Privacy Policy
+
+Google collects data to make our services more useful for everyone. We collect information in the following ways:
+
+• Things you create or provide to us (Google Account information, content you create, upload, or receive)
+• Information we collect as you use our services (apps, browsers, devices you use to access Google services)
+• Activity across Google services (search queries, YouTube videos watched, ads clicked)
+• Location information (GPS, IP address, WiFi access points, cell towers)
+• Voice and audio information when you use audio features
+• Purchase and transaction information
+
+We use this information to:
+- Provide, maintain, and improve our services
+- Develop new services and features
+- Provide personalized content and ads
+- Measure performance and understand user behavior
+- Communicate with you
+- Protect Google, our users, and the public
+
+We share information with:
+- Domain administrators if you use Google services through your organization
+- External processing by trusted partners under strict confidentiality agreements
+- Legal reasons when we believe disclosure is reasonably necessary
+- Consent-based sharing when you direct us to share information
+
+We retain data for different periods depending on the type of data and how it's used. You can delete specific information or your entire account at any time.
+
+Google operates globally and may transfer your information to countries with different privacy laws.`,
+
+            amazon: `Amazon Privacy Notice
+
+Amazon.com, Inc. and its affiliates collect personal information to provide and continually improve our products and services.
+
+Information We Collect:
+• Information You Give Us (name, address, phone numbers, age, payment information)
+• Automatic Information (IP addresses, browser types, operating systems, referring/exit pages)
+• Information from Other Sources (updated delivery and address information from carriers)
+
+We use this information for purposes such as:
+- Processing and fulfilling orders
+- Providing customer service
+- Personalizing your shopping experience  
+- Displaying personalized advertising
+- Preventing fraud and unauthorized transactions
+- Complying with legal obligations
+
+We share customer information only as described below:
+- Affiliated Businesses We Do Not Control (third-party sellers on our platform)
+- Third-Party Service Providers (shipping companies, payment processors)
+- Business Transfers (in the event of merger or acquisition)
+- Protection of Amazon and Others (to protect rights, property, or safety)
+- With Your Consent (when you agree to sharing)
+
+Our business changes constantly, and our Privacy Notice may change also. We may e-mail periodic reminders of our notices and conditions, but you should check our website frequently to see recent changes.
+
+If you have concerns about privacy at Amazon, please contact us with a thorough description, and we will try to resolve it.`,
+
+            microsoft: `Microsoft Privacy Statement
+
+Microsoft collects data from you, through our interactions with you and through our products. The data we collect depends on the context of your interactions with Microsoft.
+
+Personal data we collect includes:
+• Name and contact data (first and last name, email address, postal address, phone number)
+• Credentials (passwords, password hints, security question responses)  
+• Demographic data (age, gender, country, preferred language)
+• Payment data (credit card numbers and security codes)
+• Usage data (how you interact with Microsoft services)
+• Device and connectivity data (IP address, device identifiers, regional settings)
+• Content (files, documents, photos, music, videos you store with Microsoft)
+
+We use personal data to:
+- Provide and improve our products and services
+- Send communications including promotional communications
+- Show advertising (in Microsoft products that include advertising)
+- Meet our business operations needs
+
+We share personal data with:
+- Microsoft-controlled affiliates and subsidiaries
+- Vendors working on our behalf under confidentiality agreements
+- When required by law or to respond to legal process
+- To protect our customers and products
+- As part of a corporate transaction such as merger or sale
+
+Microsoft is a global company with facilities around the world. Personal data may be transferred to or accessed from multiple countries, including the United States.
+
+You have choices about the data we collect. You can choose not to provide certain data, but you may not be able to use some features of our products and services.`,
+
+            apple: `Apple Privacy Policy
+
+At Apple, we respect your privacy and are committed to protecting it through our compliance with this policy.
+
+Information We Collect:
+• Personal Information (name, postal address, e-mail address, telephone number, credit card information)
+• Information about your use of Apple products and services
+• Information about your transactions with us
+• Information you provide in forums, contests, or surveys
+• Location information when using location services
+• Device information and identifiers
+
+How We Use Information:
+- To provide products and services you request
+- To communicate with you about Apple products and services  
+- To provide software updates and product support
+- To personalize your experience with Apple products
+- To improve our products and services
+- To verify identity and prevent fraud
+- For research and development
+
+Information Sharing:
+Apple does not sell personal information and never will. We share personal information only in the limited circumstances described in this Privacy Policy:
+- Service providers who need access to your information to provide services to Apple
+- Strategic partners under strict confidentiality
+- Legal compliance when required by law
+- Business transfers in the event of merger or acquisition
+
+Data Security:
+Apple uses industry-standard security measures to protect your personal information. We maintain physical, electronic, and procedural safeguards that comply with applicable law.
+
+Your Choices:
+You can limit the information you provide and restrict how we use information through various settings and controls in your Apple products and services.
+
+Children's Privacy:
+Apple does not knowingly collect personal information from children under 13 without parental consent.`
+        };
+
+        function loadSample(provider) {
+            document.getElementById('privacyInput').value = samplePolicies[provider];
+            document.getElementById('charCount').textContent = `${samplePolicies[provider].length.toLocaleString()} characters`;
+        }
+
+        function clearInput() {
+            document.getElementById('privacyInput').value = '';
+            document.getElementById('charCount').textContent = '0 characters';
+            document.getElementById('resultsContainer').classList.remove('show');
+            document.getElementById('noResultsMessage').style.display = 'block';
+        }
+
+        function analyzePolicy() {
+            const policyText = document.getElementById('privacyInput').value.trim();
+            
+            if (!policyText) {
+                alert('Please paste a privacy policy first.');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loadingIndicator').style.display = 'flex';
+            document.getElementById('noResultsMessage').style.display = 'none';
+            document.getElementById('resultsContainer').classList.remove('show');
+
+            // Simulate analysis delay
+            setTimeout(() => {
+                const analysis = performAnalysis(policyText);
+                displayResults(analysis);
+                
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('resultsContainer').classList.add('show');
+            }, 2000);
+        }
+
+        function performAnalysis(text) {
+            const wordCount = text.split(/\s+/).length;
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+            
+            // Keywords for analysis
+            const dataCollectionKeywords = ['collect', 'gather', 'obtain', 'acquire', 'receive', 'store', 'track'];
+            const sharingKeywords = ['share', 'disclose', 'provide', 'transfer', 'give', 'sell', 'exchange'];
+            const thirdPartyKeywords = ['third party', 'third-party', 'partner', 'affiliate', 'vendor', 'contractor'];
+            const retentionKeywords = ['retain', 'keep', 'store', 'maintain', 'hold', 'preserve'];
+            const rightsKeywords = ['right', 'choice', 'option', 'control', 'delete', 'access', 'portability'];
+            
+            const redFlags = [];
+            const highlights = [];
+            const recommendations = [];
+            
+            const textLower = text.toLowerCase();
+            
+            // Red flag analysis
+            if (textLower.includes('sell') || textLower.includes('selling')) {
+                redFlags.push({
+                    title: 'Data Selling Detected',
+                    description: 'The policy mentions selling user data, which poses privacy risks.',
+                    severity: 'high'
+                });
+            }
+            
+            if (textLower.includes('third part') && (textLower.includes('share') || textLower.includes('provide'))) {
+                redFlags.push({
+                    title: 'Third-Party Data Sharing',
+                    description: 'Your data may be shared with third parties, potentially reducing your privacy control.',
+                    severity: 'medium'
+                });
+            }
+            
+            if (!textLower.includes('delete') && !textLower.includes('remove')) {
+                redFlags.push({
+                    title: 'No Data Deletion Rights',
+                    description: 'The policy doesn\'t clearly mention your right to delete your data.',
+                    severity: 'medium'
+                });
+            }
+            
+            if (textLower.includes('cookie') || textLower.includes('tracking')) {
+                redFlags.push({
+                    title: 'Tracking Technologies',
+                    description: 'The service uses cookies or other tracking technologies that may monitor your behavior.',
+                    severity: 'low'
+                });
+            }
+            
+            // Highlights analysis
+            if (textLower.includes('encrypt') || textLower.includes('security')) {
+                highlights.push({
+                    title: 'Security Measures',
+                    description: 'The policy mentions security measures to protect your data.'
+                });
+            }
+            
+            if (textLower.includes('choice') || textLower.includes('control') || textLower.includes('settings')) {
+                highlights.push({
+                    title: 'User Control Options',
+                    description: 'You have some control over your data and privacy settings.'
+                });
+            }
+            
+            if (textLower.includes('minimal') || textLower.includes('necessary') || textLower.includes('limited')) {
+                highlights.push({
+                    title: 'Data Minimization',
+                    description: 'The service appears to collect only necessary data.'
+                });
+            }
+            
+            // Recommendations
+            recommendations.push({
+                title: 'Review Privacy Settings',
+                description: 'Regularly check and update your privacy settings to maintain control over your data.'
+            });
+            
+            if (redFlags.some(flag => flag.severity === 'high')) {
+                recommendations.push({
+                    title: 'Consider Alternative Services',
+                    description: 'Given the high-risk privacy practices, consider using alternative services with better privacy policies.'
+                });
+            }
+            
+            recommendations.push({
+                title: 'Read Updates',
+                description: 'Monitor policy updates as companies may change their data practices over time.'
+            });
+
+            // Generate summary
+            const summary = `This privacy policy contains ${wordCount.toLocaleString()} words across ${paragraphs.length} main sections. The analysis identified ${redFlags.length} potential privacy concerns and ${highlights.length} positive aspects. Key areas covered include data collection practices, third-party sharing, user rights, and security measures.`;
+
+            return {
+                wordCount,
+                sentences: sentences.length,
+                paragraphs: paragraphs.length,
+                redFlags,
+                highlights,
+                recommendations,
+                summary,
+                riskLevel: redFlags.some(f => f.severity === 'high') ? 'High' : 
+                          redFlags.some(f => f.severity === 'medium') ? 'Medium' : 'Low'
+            };
+        }
+
+        function displayResults(analysis) {
+            analysisData = analysis;
+            
+            // Display stats
+            const statsHtml = `
+                <div class="stat-card">
+                    <span class="stat-number">${analysis.wordCount.toLocaleString()}</span>
+                    <div class="stat-label">Words</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${analysis.redFlags.length}</span>
+                    <div class="stat-label">Red Flags</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${analysis.highlights.length}</span>
+                    <div class="stat-label">Highlights</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">${analysis.riskLevel}</span>
+                    <div class="stat-label">Risk Level</div>
+                </div>
+            `;
+            
+            document.getElementById('statsContainer').innerHTML = statsHtml;
+            
+            // Display collapsible sections
+            const resultsHtml = `
+                <div class="collapsible">
+                    <div class="collapsible-header summary" onclick="toggleCollapsible(this)">
+                        <span>📄 Executive Summary</span>
+                        <svg class="chevron" viewBox="0 0 24 24">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                    <div class="collapsible-content open">
+                        <div class="collapsible-body">
+                            <p>${analysis.summary}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <div class="collapsible-header highlights" onclick="toggleCollapsible(this)">
+                        <span>✅ Key Highlights (${analysis.highlights.length})</span>
+                        <svg class="chevron" viewBox="0 0 24 24">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="collapsible-body">
+                            ${analysis.highlights.length > 0 ? 
+                                analysis.highlights.map(highlight => `
+                                    <div class="highlight-item">
+                                        <strong>${highlight.title}</strong>
+                                        <p>${highlight.description}</p>
+                                    </div>
+                                `).join('') : 
+                                '<p>No significant positive highlights found in this policy.</p>'
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <div class="collapsible-header red-flags" onclick="toggleCollapsible(this)">
+                        <span>🚩 Privacy Concerns (${analysis.redFlags.length})</span>
+                        <svg class="chevron" viewBox="0 0 24 24">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="collapsible-body">
+                            ${analysis.redFlags.length > 0 ? 
+                                analysis.redFlags.map(flag => `
+                                    <div class="red-flag-item">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                            <strong>${flag.title}</strong>
+                                            <span class="risk-badge risk-${flag.severity}">${flag.severity.toUpperCase()} RISK</span>
+                                        </div>
+                                        <p>${flag.description}</p>
+                                    </div>
+                                `).join('') : 
+                                '<p style="color: #16a34a;">✅ No major privacy concerns detected in this policy.</p>'
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="collapsible">
+                    <div class="collapsible-header recommendations" onclick="toggleCollapsible(this)">
+                        <span>💡 Recommendations (${analysis.recommendations.length})</span>
+                        <svg class="chevron" viewBox="0 0 24 24">
+                            <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/>
+                        </svg>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="collapsible-body">
+                            ${analysis.recommendations.map(rec => `
+                                <div class="recommendation-item">
+                                    <strong>${rec.title}</strong>
+                                    <p>${rec.description}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('analysisResults').innerHTML = resultsHtml;
+        }
+
+        function toggleCollapsible(header) {
+            const content = header.nextElementSibling;
+            const chevron = header.querySelector('.chevron');
+            
+            content.classList.toggle('open');
+            chevron.classList.toggle('rotate');
+        }
+
+        function exportResults() {
+            if (!analysisData.summary) {
+                alert('Please analyze a policy first before exporting.');
+                return;
+            }
+            
+            // Create a simple text export (in a real app, you'd use a PDF library)
+            const exportData = `
+PRIVACY POLICY ANALYSIS REPORT
+Generated on ${new Date().toLocaleDateString()}
+
+EXECUTIVE SUMMARY
+${analysisData.summary}
+
+STATISTICS
+- Words: ${analysisData.wordCount.toLocaleString()}
+- Red Flags: ${analysisData.redFlags.length}
+- Highlights: ${analysisData.highlights.length}
+- Risk Level: ${analysisData.riskLevel}
+
+KEY HIGHLIGHTS
+${analysisData.highlights.map(h => `• ${h.title}: ${h.description}`).join('\n')}
+
+PRIVACY CONCERNS
+${analysisData.redFlags.map(f => `• ${f.title} (${f.severity.toUpperCase()} RISK): ${f.description}`).join('\n')}
+
+RECOMMENDATIONS
+${analysisData.recommendations.map(r => `• ${r.title}: ${r.description}`).join('\n')}
+
+---
+Generated by Privacy Policy Explainer Pro
+            `.trim();
+            
+            // Download as text file
+            const blob = new Blob([exportData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `privacy_policy_analysis_${new Date().getTime()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize with first collapsible open
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstContent = document.querySelector('.collapsible-content.open');
+            if (firstContent) {
+                const chevron = firstContent.previousElementSibling.querySelector('.chevron');
+                if (chevron) chevron.classList.add('rotate');
+            }
+        });
+
+        // Advanced features for better UX
+        
+        // Auto-save functionality
+        let autoSaveTimer;
+        document.getElementById('privacyInput').addEventListener('input', function() {
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                localStorage.setItem('privacyPolicyDraft', this.value);
+            }, 1000);
+        });
+
+        // Load saved draft on page load
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('privacyPolicyDraft');
+            if (saved && saved.length > 100) {
+                if (confirm('Found a saved draft. Would you like to restore it?')) {
+                    document.getElementById('privacyInput').value = saved;
+                    document.getElementById('charCount').textContent = `${saved.length.toLocaleString()} characters`;
+                }
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'Enter':
+                        e.preventDefault();
+                        analyzePolicy();
+                        break;
+                    case 'k':
+                        e.preventDefault();
+                        clearInput();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        if (analysisData.summary) exportResults();
+                        break;
+                }
+            }
+        });
+
+        // Highlight matching terms in policy text
+        function highlightTerms() {
+            const policyText = document.getElementById('privacyInput');
+            const keywords = ['data', 'information', 'collect', 'share', 'third party', 'cookie', 'tracking'];
+            // This would highlight keywords in the textarea in a real implementation
+        }
+
+        // Advanced analytics
+        function getReadabilityScore(text) {
+            const sentences = text.split(/[.!?]+/).length;
+            const words = text.split(/\s+/).length;
+            const avgWordsPerSentence = words / sentences;
+            
+            // Simple readability score (lower is better)
+            if (avgWordsPerSentence < 15) return 'Easy';
+            if (avgWordsPerSentence < 25) return 'Moderate';
+            return 'Difficult';
+        }
+
+        // Real-time policy comparison feature
+        function compareWithStandards() {
+            // This would compare against GDPR, CCPA standards in a real implementation
+            return {
+                gdprCompliance: 'Partial',
+                ccpaCompliance: 'Yes',
+                coppaCompliance: 'Unknown'
+            };
+        }
+
+        // Enhanced error handling and validation
+        function validatePolicy(text) {
+            const minLength = 500;
+            const requiredSections = ['collect', 'use', 'share', 'store'];
+            
+            if (text.length < minLength) {
+                return { valid: false, message: 'Policy text seems too short to be comprehensive.' };
+            }
+            
+            const missingSection = requiredSections.find(section => 
+                !text.toLowerCase().includes(section)
+            );
+            
+            if (missingSection) {
+                return { 
+                    valid: false, 
+                    message: `Policy may be missing information about how they ${missingSection} your data.` 
+                };
+            }
+            
+            return { valid: true };
+        }
+
+        // Add tooltips and help system
+        function addTooltips() {
+            const tooltips = {
+                'Red Flags': 'Potentially concerning privacy practices that may affect your data security',
+                'Highlights': 'Positive privacy practices and user-friendly policies',
+                'Risk Level': 'Overall privacy risk assessment based on policy content'
+            };
+            
+            // Implementation would add interactive tooltips
+        }
+
+        // Performance monitoring
+        let analysisStartTime;
+        function startPerformanceTracking() {
+            analysisStartTime = performance.now();
+        }
+
+        function endPerformanceTracking() {
+            const duration = performance.now() - analysisStartTime;
+            console.log(`Analysis completed in ${duration.toFixed(2)}ms`);
+        }
+
+        // Enhanced mobile responsiveness
+        function optimizeForMobile() {
+            if (window.innerWidth < 768) {
+                // Adjust textarea height for mobile
+                const textarea = document.getElementById('privacyInput');
+                textarea.style.minHeight = '300px';
+                
+                // Simplify button layout
+                const buttons = document.querySelectorAll('.btn');
+                buttons.forEach(btn => {
+                    btn.style.fontSize = '16px';
+                    btn.style.padding = '14px 20px';
+                });
+            }
+        }
+
+        window.addEventListener('resize', optimizeForMobile);
+        window.addEventListener('load', optimizeForMobile);
+    </script>
+</body>
+</html>
