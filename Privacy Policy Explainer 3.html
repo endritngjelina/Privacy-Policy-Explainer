@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy Explainer | Professional Analysis Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0078d4;
+            --primary-hover: #106ebe;
+            --secondary: #005a9e;
+            --accent: #00bcf2;
+            --success: #107c10;
+            --warning: #ff8c00;
+            --danger: #d13438;
+            --light: #f8f9fa;
+            --dark: #323130;
+            --gray-100: #faf9f8;
+            --gray-200: #f3f2f1;
+            --gray-300: #edebe9;
+            --gray-500: #a19f9d;
+            --gray-700: #605e5c;
+            --gray-900: #323130;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+            --border-radius: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--gray-700);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .input-section, .output-section {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .input-section:hover, .output-section:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-500);
+            color: white;
+        }
+
+        .output-content {
+            min-height: 400px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-500);
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .analysis-section {
+            margin-bottom: 30px;
+        }
+
+        .analysis-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--gray-100);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--gray-300);
+        }
+
+        .analysis-header:hover {
+            background: var(--gray-200);
+        }
+
+        .analysis-header.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .analysis-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .chevron {
+            transition: var(--transition);
+            width: 20px;
+            height: 20px;
+        }
+
+        .chevron.rotated {
+            transform: rotate(180deg);
+        }
+
+        .analysis-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .analysis-content.active {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .analysis-body {
+            padding: 20px;
+            background: var(--gray-50);
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: white;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--gray-300);
+            transition: var(--transition);
+        }
+
+        .insight-item:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow);
+        }
+
+        .insight-item.high-risk {
+            border-left-color: var(--danger);
+        }
+
+        .insight-item.medium-risk {
+            border-left-color: var(--warning);
+        }
+
+        .insight-item.low-risk {
+            border-left-color: var(--success);
+        }
+
+        .insight-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .insight-content h4 {
+            margin-bottom: 8px;
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .insight-content p {
+            color: var(--gray-700);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray-700);
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-300);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .sample-policies {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .sample-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .sample-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .sample-card {
+            padding: 20px;
+            border: 2px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sample-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
+        .sample-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+
+        .sample-description {
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .section-content {
+                padding: 20px;
+            }
+        }
+
+        .feature-highlight {
+            background: linear-gradient(135deg, rgba(0, 120, 212, 0.05), rgba(0, 188, 242, 0.05));
+            border: 1px solid rgba(0, 120, 212, 0.1);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .risk-high { color: var(--danger); }
+        .risk-medium { color: var(--warning); }
+        .risk-low { color: var(--success); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Privacy Policy Explainer</h1>
+            <p>Professional-grade privacy policy analysis tool. Paste any privacy policy to get instant insights, risk assessment, and simplified explanations.</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <div class="section-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                    Input Privacy Policy
+                </div>
+                <div class="section-content">
+                    <div class="input-group">
+                        <label for="policyText">Paste Privacy Policy Text</label>
+                        <textarea id="policyText" placeholder="Paste the complete privacy policy text here. The analyzer will automatically detect key sections, data practices, and potential privacy concerns..."></textarea>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="analyzePolicy()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                            </svg>
+                            Analyze Policy
+                        </button>
+                        <button class="btn-secondary" onclick="clearInput()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
+                            </svg>
+                            Clear
+                        </button>
+                        <button class="btn-secondary" onclick="loadSample()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2Z"/>
+                            </svg>
+                            Load Sample
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <div class="section-header">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M19,19H5V5H19V19M7,10H9V12H7V10M11,10H17V12H11V10M7,14H9V16H7V14M11,14H17V16H11V14Z"/>
+                    </svg>
+                    Analysis Results
+                </div>
+                <div class="section-content">
+                    <div class="output-content" id="outputContent">
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
+                            </svg>
+                            <h3>Ready for Analysis</h3>
+                            <p>Paste a privacy policy in the input section and click "Analyze Policy" to get started.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sample-policies">
+            <div class="sample-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/>
+                </svg>
+                <h2>Sample Privacy Policies</h2>
+            </div>
+            <div class="sample-grid">
+                <div class="sample-card" onclick="loadSamplePolicy('social')">
+                    <div class="sample-title">Social Media Platform</div>
+                    <div class="sample-description">Typical social networking privacy policy with advertising and data sharing clauses</div>
+                </div>
+                <div class="sample-card" onclick="loadSamplePolicy('ecommerce')">
+                    <div class="sample-title">E-commerce Website</div>
+                    <div class="sample-description">Online store privacy policy covering payment processing and customer data</div>
+                </div>
+                <div class="sample-card" onclick="loadSamplePolicy('mobile')">
+                    <div class="sample-title">Mobile Application</div>
+                    <div class="sample-description">Mobile app privacy policy including location data and device permissions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample privacy policies for demonstration
+        const samplePolicies = {
+            social: `Privacy Policy - SocialConnect
+Last updated: January 2024
+
+1. Information We Collect
+We collect information you provide directly to us, such as when you create an account, post content, or communicate with us. This includes your name, email address, phone number, profile information, and any content you post.
+
+We also collect information automatically when you use our services, including:
+- Device information (IP address, browser type, operating system)
+- Usage data (pages viewed, time spent, clicks)
+- Location information (approximate location based on IP address)
+- Cookies and similar tracking technologies
+
+2. How We Use Your Information
+We use your information to:
+- Provide and maintain our services
+- Personalize your experience and content
+- Show you relevant advertisements
+- Communicate with you about our services
+- Analyze usage patterns and improve our services
+- Comply with legal obligations
+
+3. Information Sharing
+We may share your information with:
+- Other users (based on your privacy settings)
+- Third-party service providers who help us operate our services
+- Advertising partners to show you relevant ads
+- Law enforcement when required by law
+- Other parties with your consent
+
+4. Third-Party Advertising
+We work with third-party advertising companies who may collect information about your activities across different websites and apps to provide you with relevant advertisements.
+
+5. Data Retention
+We retain your information for as long as your account is active or as needed to provide you services. We may retain certain information even after you deactivate your account for legal compliance and legitimate business purposes.
+
+6. International Transfers
+Your information may be transferred to and processed in countries other than your own, which may have different data protection laws.
+
+7. Your Rights
+You may access, update, or delete your account information at any time. You may also opt out of certain communications and advertising.
+
+Contact us at privacy@socialconnect.com for questions about this policy.`,
+
+            ecommerce: `ShopMart Privacy Policy
+Effective Date: January 2024
+
+Information Collection
+We collect personal information when you:
+- Create an account or make a purchase
+- Subscribe to our newsletter
+- Contact customer service
+- Browse our website
+
+Information collected includes: name, email, billing/shipping addresses, phone number, payment information, and purchase history.
+
+Website Usage Data
+We automatically collect:
+- Browser and device information
+- IP address and location data
+- Website navigation patterns
+- Search queries and product views
+- Cookies and web beacons
+
+Use of Information
+Your information is used to:
+- Process orders and payments
+- Ship products to you
+- Provide customer support
+- Send marketing communications (with consent)
+- Improve our website and services
+- Prevent fraud and ensure security
+
+Information Sharing
+We share your information with:
+- Payment processors (for transaction processing)
+- Shipping companies (for delivery)
+- Marketing partners (with your consent)
+- Service providers (for website hosting, analytics)
+- Legal authorities (when required)
+
+Data Security
+We use industry-standard security measures including SSL encryption for data transmission and secure storage of payment information. However, no method of transmission is 100% secure.
+
+Your Rights
+You can:
+- Access and update your account information
+- Unsubscribe from marketing emails
+- Request deletion of your data
+- Contact us about privacy concerns
+
+Third-Party Links
+Our website may contain links to third-party sites. We are not responsible for their privacy practices.
+
+Policy Updates
+We may update this policy periodically. Check this page for the latest version.
+
+Contact: privacy@shopmart.com`,
+
+            mobile: `FitTracker App Privacy Policy
+Version 2.1 - January 2024
+
+Data We Collect
+
+Account Information:
+- Name, email address, age, gender
+- Profile photo and bio
+- Fitness goals and preferences
+
+Health & Fitness Data:
+- Steps, distance, calories burned
+- Heart rate and sleep patterns
+- Exercise routines and progress
+- Weight and body measurements
+
+Device & Technical Data:
+- Device type, operating system version
+- App usage statistics
+- Crash logs and error reports
+- Advertising identifier (IDFA/GAID)
+
+Location Data:
+- GPS location for workout tracking
+- Approximate location for weather data
+- Location history for route mapping
+
+How We Use Your Data
+- Track your fitness progress and achievements
+- Provide personalized workout recommendations
+- Enable social features and challenges
+- Show location-based content and weather
+- Analyze app performance and usage
+- Send push notifications and updates
+- Display targeted advertisements
+
+Data Sharing
+We share limited data with:
+- Health app integrations (with permission)
+- Social media platforms (when you share)
+- Analytics providers (Google Analytics, Firebase)
+- Advertising networks for personalized ads
+- Cloud storage providers (encrypted data)
+
+Data Retention
+- Account data: Until account deletion
+- Health data: 3 years after last app use
+- Location data: 1 year for inactive users
+- Usage analytics: 2 years maximum
+
+International Transfers
+Data may be processed in the US, EU, and other regions where our service providers operate.
+
+Your Rights
+- Export your health data anytime
+- Delete your account and data
+- Opt out of data sharing
+- Control location tracking
+- Manage notification preferences
+
+Children's Privacy
+Our app is not intended for users under 13. We do not knowingly collect data from children.
+
+Updates
+We'll notify you of significant policy changes through the app.
+
+Contact: support@fittracker.com`
+        };
+
+        function analyzePolicy() {
+            const policyText = document.getElementById('policyText').value.trim();
+            const outputContent = document.getElementById('outputContent');
+            
+            if (!policyText) {
+                alert('Please paste a privacy policy to analyze.');
+                return;
+            }
+
+            // Show loading state
+            outputContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Analyzing privacy policy...</p>
+                </div>
+            `;
+
+            // Simulate analysis delay for realism
+            setTimeout(() => {
+                const analysis = performAnalysis(policyText);
+                displayAnalysis(analysis);
+            }, 2000);
+        }
+
+        function performAnalysis(policyText) {
+            const text = policyText.toLowerCase();
+            const wordCount = policyText.split(/\s+/).length;
+            
+            // Analyze different aspects
+            const dataCollection = analyzeDataCollection(text);
+            const sharing = analyzeDataSharing(text);
+            const rights = analyzeUserRights(text);
+            const redFlags = identifyRedFlags(text);
+            const score = calculatePrivacyScore(dataCollection, sharing, rights, redFlags);
+            
+            return {
+                wordCount,
+                score,
+                dataCollection,
+                sharing,
+                rights,
+                redFlags,
+                summary: generateSummary(dataCollection, sharing, rights)
+            };
+        }
+
+        function analyzeDataCollection(text) {
+            const personalData = [
+                'name', 'email', 'address', 'phone', 'age', 'gender', 'birthday',
+                'social security', 'credit card', 'payment', 'financial'
+            ];
+            const trackingData = [
+                'cookies', 'tracking', 'analytics', 'ip address', 'device',
+                'browser', 'location', 'gps', 'usage', 'behavior'
+            ];
+            const sensitiveData = [
+                'health', 'medical', 'biometric', 'genetic', 'religion',
+                'political', 'sexual', 'race', 'ethnicity'
+            ];
+
+            const personal = personalData.filter(term => text.includes(term));
+            const tracking = trackingData.filter(term => text.includes(term));
+            const sensitive = sensitiveData.filter(term => text.includes(term));
+
+            return {
+                personal: personal.length,
+                tracking: tracking.length,
+                sensitive: sensitive.length,
+                details: { personal, tracking, sensitive }
+            };
+        }
+
+        function analyzeDataSharing(text) {
+            const sharingTerms = [
+                'share', 'third party', 'partners', 'affiliates', 'subsidiaries',
+                'vendors', 'service providers', 'advertisers', 'sell', 'transfer'
+            ];
+            
+            const sharing = sharingTerms.filter(term => text.includes(term));
+            const hasOptOut = text.includes('opt out') || text.includes('opt-out');
+            const hasConsent = text.includes('consent') || text.includes('permission');
+
+            return {
+                sharingScore: sharing.length,
+                hasOptOut,
+                hasConsent,
+                terms: sharing
+            };
+        }
+
+        function analyzeUserRights(text) {
+            const rights = [
+                'access', 'delete', 'correct', 'update', 'download', 'export',
+                'portability', 'opt out', 'unsubscribe', 'withdraw consent'
+            ];
+
+            const availableRights = rights.filter(right => text.includes(right));
+            const hasGDPR = text.includes('gdpr') || text.includes('general data protection');
+            const hasCCPA = text.includes('ccpa') || text.includes('california consumer');
+
+            return {
+                count: availableRights.length,
+                hasGDPR,
+                hasCCPA,
+                rights: availableRights
+            };
+        }
+
+        function identifyRedFlags(text) {
+            const redFlags = [];
+
+            if (text.includes('sell') && text.includes('personal')) {
+                redFlags.push({
+                    type: 'high',
+                    title: 'Data Sale Detected',
+                    description: 'This policy mentions selling personal information to third parties.'
+                });
+            }
+
+            if (!text.includes('encrypt') && !text.includes('secure')) {
+                redFlags.push({
+                    type: 'medium',
+                    title: 'Limited Security Measures',
+                    description: 'No mention of data encryption or security measures.'
+                });
+            }
+
+            if (text.includes('indefinitely') || text.includes('permanent')) {
+                redFlags.push({
+                    type: 'high',
+                    title: 'Indefinite Data Retention',
+                    description: 'Data may be stored indefinitely without clear deletion policies.'
+                });
+            }
+
+            if (!text.includes('delete') && !text.includes('removal')) {
+                redFlags.push({
+                    type: 'medium',
+                    title: 'No Data Deletion Rights',
+                    description: 'Users may not be able to request deletion of their data.'
+                });
+            }
+
+            if (text.includes('change') && text.includes('policy') && !text.includes('notice')) {
+                redFlags.push({
+                    type: 'medium',
+                    title: 'Policy Changes Without Notice',
+                    description: 'Privacy policy may be changed without user notification.'
+                });
+            }
+
+            if (text.includes('minor') || text.includes('children') || text.includes('under 13')) {
+                redFlags.push({
+                    type: 'low',
+                    title: 'Children\'s Data Collection',
+                    description: 'Policy addresses collection of data from minors - ensure compliance.'
+                });
+            }
+
+            return redFlags;
+        }
+
+        function calculatePrivacyScore(dataCollection, sharing, rights, redFlags) {
+            let score = 100;
+
+            // Deduct points for extensive data collection
+            score -= (dataCollection.personal * 2);
+            score -= (dataCollection.tracking * 1.5);
+            score -= (dataCollection.sensitive * 5);
+
+            // Deduct points for data sharing
+            score -= (sharing.sharingScore * 3);
+            if (!sharing.hasOptOut) score -= 10;
+            if (!sharing.hasConsent) score -= 5;
+
+            // Add points for user rights
+            score += (rights.count * 2);
+            if (rights.hasGDPR) score += 10;
+            if (rights.hasCCPA) score += 5;
+
+            // Deduct points for red flags
+            redFlags.forEach(flag => {
+                if (flag.type === 'high') score -= 15;
+                else if (flag.type === 'medium') score -= 10;
+                else score -= 5;
+            });
+
+            return Math.max(0, Math.min(100, Math.round(score)));
+        }
+
+        function generateSummary(dataCollection, sharing, rights) {
+            const summaryPoints = [];
+
+            if (dataCollection.personal > 5) {
+                summaryPoints.push("Collects extensive personal information");
+            } else if (dataCollection.personal > 2) {
+                summaryPoints.push("Collects moderate personal information");
+            } else {
+                summaryPoints.push("Limited personal information collection");
+            }
+
+            if (sharing.sharingScore > 5) {
+                summaryPoints.push("Shares data with multiple third parties");
+            } else if (sharing.sharingScore > 2) {
+                summaryPoints.push("Limited data sharing with partners");
+            } else {
+                summaryPoints.push("Minimal third-party data sharing");
+            }
+
+            if (rights.count > 5) {
+                summaryPoints.push("Strong user rights and controls");
+            } else if (rights.count > 2) {
+                summaryPoints.push("Basic user rights provided");
+            } else {
+                summaryPoints.push("Limited user control options");
+            }
+
+            return summaryPoints;
+        }
+
+        function displayAnalysis(analysis) {
+            const outputContent = document.getElementById('outputContent');
+            const scoreColor = analysis.score >= 70 ? 'success' : analysis.score >= 50 ? 'warning' : 'danger';
+            
+            outputContent.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number risk-${scoreColor === 'success' ? 'low' : scoreColor === 'warning' ? 'medium' : 'high'}">${analysis.score}</span>
+                        <div class="stat-label">Privacy Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">${analysis.wordCount.toLocaleString()}</span>
+                        <div class="stat-label">Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">${analysis.redFlags.length}</span>
+                        <div class="stat-label">Red Flags</div>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">${analysis.rights.count}</span>
+                        <div class="stat-label">User Rights</div>
+                    </div>
+                </div>
+
+                <div class="analysis-section">
+                    <div class="analysis-header active" onclick="toggleSection(this)">
+                        <div class="analysis-title">
+                            <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,17C11.45,17 11,16.55 11,16V12C11,11.45 11.45,11 12,11C12.55,11 13,11.45 13,12V16C13,16.55 12.55,17 12,17M12,9C11.45,9 11,8.55 11,8C11,7.45 11.45,7 12,7C12.55,7 13,7.45 13,8C13,8.55 12.55,9 12,9Z"/>
+                            </svg>
+                            Executive Summary
+                        </div>
+                        <svg class="chevron rotated" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,10L12,15L17,10H7Z"/>
+                        </svg>
+                    </div>
+                    <div class="analysis-content active">
+                        <div class="analysis-body">
+                            ${analysis.summary.map(point => `
+                                <div class="insight-item">
+                                    <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,7V13H13V7H11M11,15V17H13V15H11Z"/>
+                                    </svg>
+                                    <div class="insight-content">
+                                        <p>${point}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            <div class="feature-highlight">
+                                <strong>Overall Assessment:</strong> This privacy policy receives a score of <strong class="risk-${scoreColor === 'success' ? 'low' : scoreColor === 'warning' ? 'medium' : 'high'}">${analysis.score}/100</strong>. 
+                                ${analysis.score >= 70 ? 'This indicates relatively good privacy practices with user-friendly policies.' : 
+                                  analysis.score >= 50 ? 'This indicates moderate privacy practices with some areas for improvement.' : 
+                                  'This indicates concerning privacy practices that may put user data at risk.'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-section">
+                    <div class="analysis-header" onclick="toggleSection(this)">
+                        <div class="analysis-title">
+                            <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.4 16,13V16C16,17.4 15.4,18 14.8,18H9.2C8.6,18 8,17.4 8,16V13C8,12.4 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
+                            </svg>
+                            Data Collection Analysis
+                            <span class="badge">${analysis.dataCollection.personal + analysis.dataCollection.tracking + analysis.dataCollection.sensitive} types detected</span>
+                        </div>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,10L12,15L17,10H7Z"/>
+                        </svg>
+                    </div>
+                    <div class="analysis-content">
+                        <div class="analysis-body">
+                            <div class="insight-item">
+                                <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                                </svg>
+                                <div class="insight-content">
+                                    <h4>Personal Information (${analysis.dataCollection.personal} types)</h4>
+                                    <p>${analysis.dataCollection.details.personal.length > 0 ? 
+                                        `Collects: ${analysis.dataCollection.details.personal.join(', ')}` : 
+                                        'No specific personal data types identified'}</p>
+                                </div>
+                            </div>
+                            <div class="insight-item">
+                                <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z"/>
+                                </svg>
+                                <div class="insight-content">
+                                    <h4>Tracking & Analytics (${analysis.dataCollection.tracking} types)</h4>
+                                    <p>${analysis.dataCollection.details.tracking.length > 0 ? 
+                                        `Includes: ${analysis.dataCollection.details.tracking.join(', ')}` : 
+                                        'Limited tracking data collection identified'}</p>
+                                </div>
+                            </div>
+                            ${analysis.dataCollection.sensitive > 0 ? `
+                            <div class="insight-item high-risk">
+                                <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,2L13.09,8.26L22,9L13.09,9.74L12,16L10.91,9.74L2,9L10.91,8.26L12,2Z"/>
+                                </svg>
+                                <div class="insight-content">
+                                    <h4>Sensitive Data (${analysis.dataCollection.sensitive} types)</h4>
+                                    <p>⚠️ Collects sensitive information: ${analysis.dataCollection.details.sensitive.join(', ')}</p>
+                                </div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-section">
+                    <div class="analysis-header" onclick="toggleSection(this)">
+                        <div class="analysis-title">
+                            <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z"/>
+                            </svg>
+                            Data Sharing Practices
+                            <span class="badge">${analysis.sharing.sharingScore} sharing terms found</span>
+                        </div>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,10L12,15L17,10H7Z"/>
+                        </svg>
+                    </div>
+                    <div class="analysis-content">
+                        <div class="analysis-body">
+                            <div class="insight-item ${analysis.sharing.sharingScore > 5 ? 'high-risk' : analysis.sharing.sharingScore > 2 ? 'medium-risk' : 'low-risk'}">
+                                <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25Z"/>
+                                </svg>
+                                <div class="insight-content">
+                                    <h4>Third-Party Sharing Level</h4>
+                                    <p>${analysis.sharing.sharingScore > 5 ? 'High level of data sharing detected' : 
+                                        analysis.sharing.sharingScore > 2 ? 'Moderate data sharing with partners' : 
+                                        'Limited third-party data sharing'}</p>
+                                </div>
+                            </div>
+                            <div class="insight-item ${analysis.sharing.hasOptOut ? 'low-risk' : 'medium-risk'}">
+                                <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/>
+                                </svg>
+                                <div class="insight-content">
+                                    <h4>Opt-Out Options</h4>
+                                    <p>${analysis.sharing.hasOptOut ? '✓ Users can opt out of data sharing' : '⚠️ No clear opt-out mechanism mentioned'}</p>
+                                </div>
+                            </div>
+                            <div class="insight-item ${analysis.sharing.hasConsent ? 'low-risk' : 'medium-risk'}">
+                                <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M23,12L20.56,9.22L20.9,5.54L17.29,4.72L15.4,1.54L12,3L8.6,1.54L6.71,4.72L3.1,5.53L3.44,9.21L1,12L3.44,14.78L3.1,18.47L6.71,19.29L8.6,22.47L12,21L15.4,22.46L17.29,19.28L20.9,18.46L20.56,14.78L23,12M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                                </svg>
+                                <div class="insight-content">
+                                    <h4>Consent Requirements</h4>
+                                    <p>${analysis.sharing.hasConsent ? '✓ Requires user consent for sharing' : '⚠️ Consent requirements unclear'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-section">
+                    <div class="analysis-header" onclick="toggleSection(this)">
+                        <div class="analysis-title">
+                            <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                            </svg>
+                            User Rights & Controls
+                            <span class="badge">${analysis.rights.count} rights identified</span>
+                        </div>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,10L12,15L17,10H7Z"/>
+                        </svg>
+                    </div>
+                    <div class="analysis-content">
+                        <div class="analysis-body">
+                            ${analysis.rights.rights.map(right => `
+                                <div class="insight-item low-risk">
+                                    <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+                                    </svg>
+                                    <div class="insight-content">
+                                        <h4>Right to ${right.charAt(0).toUpperCase() + right.slice(1)}</h4>
+                                        <p>Users can ${right} their data</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                            ${analysis.rights.hasGDPR ? `
+                                <div class="insight-item low-risk">
+                                    <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                                    </svg>
+                                    <div class="insight-content">
+                                        <h4>GDPR Compliance</h4>
+                                        <p>✓ Mentions GDPR compliance and European data protection rights</p>
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${analysis.rights.hasCCPA ? `
+                                <div class="insight-item low-risk">
+                                    <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                                    </svg>
+                                    <div class="insight-content">
+                                        <h4>CCPA Compliance</h4>
+                                        <p>✓ Mentions California Consumer Privacy Act compliance</p>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                ${analysis.redFlags.length > 0 ? `
+                <div class="analysis-section">
+                    <div class="analysis-header" onclick="toggleSection(this)">
+                        <div class="analysis-title">
+                            <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z"/>
+                            </svg>
+                            Privacy Red Flags
+                            <span class="badge" style="background: var(--danger);">${analysis.redFlags.length} issues found</span>
+                        </div>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7,10L12,15L17,10H7Z"/>
+                        </svg>
+                    </div>
+                    <div class="analysis-content">
+                        <div class="analysis-body">
+                            ${analysis.redFlags.map(flag => `
+                                <div class="insight-item ${flag.type}-risk">
+                                    <svg class="insight-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M13,14H11V10H13M13,18H11V16H13M1,21H23L12,2L1,21Z"/>
+                                    </svg>
+                                    <div class="insight-content">
+                                        <h4>${flag.title}</h4>
+                                        <p>${flag.description}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+        }
+
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const chevron = header.querySelector('.chevron');
+            const isActive = header.classList.contains('active');
+
+            // Close all sections first
+            document.querySelectorAll('.analysis-header').forEach(h => {
+                h.classList.remove('active');
+                h.nextElementSibling.classList.remove('active');
+                h.querySelector('.chevron').classList.remove('rotated');
+            });
+
+            // Open clicked section if it wasn't active
+            if (!isActive) {
+                header.classList.add('active');
+                content.classList.add('active');
+                chevron.classList.add('rotated');
+            }
+        }
+
+        function clearInput() {
+            document.getElementById('policyText').value = '';
+            document.getElementById('outputContent').innerHTML = `
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13,9H18.5L13,3.5V9M6,2H14L20,8V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V4C4,2.89 4.89,2 6,2M15,18V16H6V18H15M18,14V12H6V14H18Z"/>
+                    </svg>
+                    <h3>Input Cleared</h3>
+                    <p>Ready for new privacy policy analysis.</p>
+                </div>
+            `;
+        }
+
+        function loadSample() {
+            loadSamplePolicy('social');
+        }
+
+        function loadSamplePolicy(type) {
+            if (samplePolicies[type]) {
+                document.getElementById('policyText').value = samplePolicies[type];
+                // Auto-scroll to input section
+                document.querySelector('.input-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Initialize with first section open
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some interactive enhancements
+            const textarea = document.getElementById('policyText');
+            
+            textarea.addEventListener('paste', function() {
+                setTimeout(() => {
+                    if (textarea.value.length > 100) {
+                        // Show a helpful tip after pasting
+                        const tip = document.createElement('div');
+                        tip.className = 'feature-highlight';
+                        tip.innerHTML = '💡 <strong>Tip:</strong> Your privacy policy has been loaded. Click "Analyze Policy" to get detailed insights and risk assessment.';
+                        textarea.parentNode.appendChild(tip);
+                        
+                        setTimeout(() => tip.remove(), 5000);
+                    }
+                }, 100);
+            });
+
+            // Add keyboard shortcut for analysis
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    analyzePolicy();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
