@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy Analyzer Pro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #007AFF;
+            --primary-hover: #0056CC;
+            --primary-gradient: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+            --success: #34C759;
+            --warning: #FF9500;
+            --danger: #FF3B30;
+            --purple: #5856D6;
+            --indigo: #5AC8FA;
+            --bg-primary: #F2F2F7;
+            --bg-secondary: #FFFFFF;
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --text-tertiary: #C7C7CC;
+            --border: #E5E5EA;
+            --border-hover: rgba(0, 122, 255, 0.3);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-lg: rgba(0, 0, 0, 0.15);
+            --shadow-xl: rgba(0, 0, 0, 0.25);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-fast: all 0.2s ease;
+            --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --dark-bg-primary: #121212;
+            --dark-bg-secondary: #1E1E1E;
+            --dark-text-primary: #FFFFFF;
+            --dark-text-secondary: #B0B0B0;
+            --dark-glass: rgba(30, 30, 30, 0.95);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2), transparent 50%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            animation: backgroundShift 20s ease-in-out infinite;
+            transition: background 0.5s ease;
+        }
+
+        body.dark-mode {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(66, 66, 112, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(112, 66, 112, 0.3), transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(66, 112, 158, 0.2), transparent 50%),
+                linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            color: var(--dark-text-primary);
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(10deg); }
+        }
+
+        .app-header {
+            max-width: 1400px;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .app-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .app-title h1 {
+            font-size: 28px;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .app-title i {
+            font-size: 32px;
+            color: var(--purple);
+        }
+
+        .app-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius);
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-spring);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode-toggle {
+            width: 50px;
+            height: 26px;
+            background: var(--text-secondary);
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dark-mode-toggle.active {
+            background: var(--primary);
+        }
+
+        .toggle-handle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .dark-mode-toggle.active .toggle-handle {
+            transform: translateX(24px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            min-height: calc(100vh - 100px);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .panel {
+            background: var(--bg-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: 
+                0 10px 40px var(--shadow),
+                0 1px 0px rgba(255, 255, 255, 0.4) inset,
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px) saturate(180%);
+            overflow: hidden;
+            transition: var(--transition-spring);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            position: relative;
+        }
+
+        body.dark-mode .panel {
+            background: var(--dark-glass);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.5),
+                0 1px 0px rgba(255, 255, 255, 0.1) inset,
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .panel:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 
+                0 25px 80px var(--shadow-lg),
+                0 1px 0px rgba(255, 255, 255, 0.4) inset,
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+        }
+
+        .panel:hover::before {
+            opacity: 1;
+        }
+
+        .panel-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 25px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .panel-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+        }
+
+        .panel-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.03) 4px
+                );
+            animation: shimmer 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .panel-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .panel-header h2 i {
+            opacity: 0.9;
+            font-size: 22px;
+        }
+
+        .panel-header p {
+            opacity: 0.9;
+            font-size: 15px;
+            position: relative;
+            z-index: 1;
+            font-weight: 400;
+        }
+
+        .input-section {
+            padding: 30px;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-lg);
+            padding: 50px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: var(--transition-spring);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+        }
+
+        body.dark-mode .file-upload {
+            background: linear-gradient(145deg, rgba(30, 30, 30, 0.4), rgba(30, 30, 30, 0.1));
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .file-upload::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(0, 122, 255, 0.05);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 122, 255, 0.1);
+        }
+
+        .file-upload:hover::before {
+            left: 100%;
+        }
+
+        .file-upload.drag-over {
+            border-color: var(--primary);
+            background: rgba(0, 122, 255, 0.15);
+            transform: scale(1.05);
+            box-shadow: 
+                0 15px 40px rgba(0, 122, 255, 0.2),
+                0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        .file-upload i {
+            font-size: 54px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: var(--transition-spring);
+        }
+
+        .file-upload:hover i {
+            transform: scale(1.1) rotateY(180deg);
+        }
+
+        .file-upload h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        body.dark-mode .file-upload h3 {
+            color: var(--dark-text-primary);
+        }
+
+        .file-upload p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        body.dark-mode .file-upload p {
+            color: var(--dark-text-secondary);
+        }
+
+        .textarea-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 220px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            line-height: 1.5;
+            color: var(--text-primary);
+        }
+
+        body.dark-mode textarea {
+            background: rgba(30, 30, 30, 0.8);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: var(--dark-text-primary);
+        }
+
+        textarea::placeholder {
+            color: var(--text-tertiary);
+            transition: var(--transition-fast);
+        }
+
+        body.dark-mode textarea::placeholder {
+            color: var(--dark-text-secondary);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 
+                0 0 0 4px rgba(0, 122, 255, 0.1),
+                0 8px 25px rgba(0, 122, 255, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            transform: scale(1.01);
+        }
+
+        body.dark-mode textarea:focus {
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        textarea:focus::placeholder {
+            color: var(--text-secondary);
+            transform: translateY(-2px);
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        body.dark-mode .char-counter {
+            background: var(--dark-bg-secondary);
+            color: var(--dark-text-secondary);
+        }
+
+        .analyze-btn {
+            width: 100%;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            border-radius: var(--radius-lg);
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-spring);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+        }
+
+        .analyze-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 12px 40px rgba(0, 122, 255, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        }
+
+        .analyze-btn:hover::before {
+            left: 100%;
+        }
+
+        .analyze-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .analyze-btn:disabled {
+            background: linear-gradient(135deg, var(--text-secondary), var(--text-tertiary));
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .analyze-btn:disabled::before {
+            display: none;
+        }
+
+        .analyze-btn i {
+            margin-right: 12px;
+            transition: var(--transition-spring);
+        }
+
+        .analyze-btn:hover i {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .results-section {
+            padding: 0;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        /* Advanced scroll styling */
+        .results-section::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .results-section::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 6px;
+        }
+
+        .results-section::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            border-radius: 6px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .results-section::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--primary-hover), var(--purple));
+        }
+
+        /* Improved char counter */
+        .char-counter {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+        }
+
+        .char-counter:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        /* Add micro-interactions */
+        .result-item {
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .result-item {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .result-item:hover {
+            border-color: var(--border-hover);
+        }
+
+        .result-item.active {
+            border-left: 4px solid var(--primary);
+            margin-left: -4px;
+        }
+
+        /* Enhanced demo section */
+        .demo-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .demo-section {
+            background: rgba(30, 30, 30, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .demo-section h4 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-btn {
+            margin-right: 12px;
+            margin-bottom: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition-spring);
+            font-size: 14px;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .demo-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Add severity badges */
+        .severity {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .severity.high {
+            background: var(--danger);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 59, 48, 0.3);
+        }
+
+        .severity.medium {
+            background: var(--warning);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 149, 0, 0.3);
+        }
+
+        .severity.low {
+            background: #6c757d;
+            color: white;
+            box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        }
+
+        .result-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-header {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .result-header {
+            background: var(--dark-bg-secondary);
+        }
+
+        .result-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.05), transparent);
+            transition: var(--transition);
+        }
+
+        .result-header:hover {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(0, 122, 255, 0.05) 100%);
+            transform: translateX(5px);
+        }
+
+        body.dark-mode .result-header:hover {
+            background: linear-gradient(135deg, var(--dark-bg-primary) 0%, rgba(0, 122, 255, 0.05) 100%);
+        }
+
+        .result-header:hover::before {
+            left: 100%;
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 19px;
+            color: var(--text-primary);
+        }
+
+        body.dark-mode .result-title {
+            color: var(--dark-text-primary);
+        }
+
+        .result-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 18px;
+            font-size: 18px;
+            transition: var(--transition-spring);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .result-header:hover .result-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .result-header:hover .result-icon::before {
+            opacity: 1;
+        }
+
+        .summary .result-icon { 
+            background: linear-gradient(135deg, rgba(52, 199, 89, 0.15), rgba(52, 199, 89, 0.05)); 
+            color: var(--success); 
+            box-shadow: 0 4px 12px rgba(52, 199, 89, 0.2);
+        }
+        .highlights .result-icon { 
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.15), rgba(255, 149, 0, 0.05)); 
+            color: var(--warning); 
+            box-shadow: 0 4px 12px rgba(255, 149, 0, 0.2);
+        }
+        .red-flags .result-icon { 
+            background: linear-gradient(135deg, rgba(255, 59, 48, 0.15), rgba(255, 59, 48, 0.05)); 
+            color: var(--danger); 
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.2);
+        }
+        .recommendations .result-icon { 
+            background: linear-gradient(135deg, rgba(0, 122, 255, 0.15), rgba(0, 122, 255, 0.05)); 
+            color: var(--primary); 
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+        }
+        .score .result-icon { 
+            background: linear-gradient(135deg, rgba(88, 86, 214, 0.15), rgba(88, 86, 214, 0.05)); 
+            color: #5856D6; 
+            box-shadow: 0 4px 12px rgba(88, 86, 214, 0.2);
+        }
+
+        .chevron {
+            transition: var(--transition-spring);
+            color: var(--text-secondary);
+            font-size: 16px;
+            padding: 8px;
+            border-radius: 50%;
+            background: rgba(0, 122, 255, 0.1);
+            opacity: 0.7;
+        }
+
+        body.dark-mode .chevron {
+            color: var(--dark-text-secondary);
+        }
+
+        .result-item.active .chevron {
+            transform: rotate(180deg) scale(1.1);
+            color: var(--primary);
+            background: rgba(0, 122, 255, 0.15);
+            opacity: 1;
+        }
+
+        .result-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 249, 250, 0.8));
+        }
+
+        body.dark-mode .result-content {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.8));
+        }
+
+        .result-item.active .result-content {
+            max-height: 2000px;
+        }
+
+        .result-body {
+            padding: 0 30px 30px;
+            line-height: 1.6;
+            animation: slideInUp 0.4s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .highlight-item, .flag-item, .recommendation-item {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(248, 249, 250, 0.8));
+            backdrop-filter: blur(10px);
+            padding: 20px 24px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            border-left: 4px solid;
+            transition: var(--transition-spring);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .highlight-item, 
+        body.dark-mode .flag-item, 
+        body.dark-mode .recommendation-item {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.6), rgba(20, 20, 20, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .highlight-item::before, .flag-item::before, .recommendation-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, currentColor, transparent);
+            transition: var(--transition);
+        }
+
+        .highlight-item { border-color: var(--warning); }
+        .flag-item { border-color: var(--danger); }
+        .recommendation-item { border-color: var(--primary); }
+
+        .highlight-item:hover, .flag-item:hover, .recommendation-item:hover {
+            transform: translateX(8px) translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.1),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 249, 250, 0.9));
+        }
+
+        body.dark-mode .highlight-item:hover, 
+        body.dark-mode .flag-item:hover, 
+        body.dark-mode .recommendation-item:hover {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .highlight-item:hover::before { width: 6px; }
+        .flag-item:hover::before { width: 6px; }
+        .recommendation-item:hover::before { width: 6px; }
+
+        .score-display {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: var(--transition-spring);
+            animation: scoreFloat 3s ease-in-out infinite;
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: scoreShimmer 4s linear infinite;
+        }
+
+        @keyframes scoreFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes scoreShimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .score-circle:hover {
+            transform: scale(1.05);
+        }
+
+        .score-excellent { 
+            background: linear-gradient(135deg, var(--success) 0%, #28A745 50%, #20C997 100%); 
+            box-shadow: 0 10px 30px rgba(52, 199, 89, 0.4);
+        }
+        .score-good { 
+            background: linear-gradient(135deg, var(--warning) 0%, #FD7E14 50%, #FF6B35 100%); 
+            box-shadow: 0 10px 30px rgba(255, 149, 0, 0.4);
+        }
+        .score-poor { 
+            background: linear-gradient(135deg, var(--danger) 0%, #DC3545 50%, #E55353 100%); 
+            box-shadow: 0 10px 30px rgba(255, 59, 48, 0.4);
+        }
+
+        .score-label {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        body.dark-mode .score-label {
+            color: var(--dark-text-secondary);
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px;
+            color: var(--text-secondary);
+            flex-direction: column;
+        }
+
+        body.dark-mode .loading {
+            color: var(--dark-text-secondary);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 122, 255, 0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite, pulse 2s ease-in-out infinite;
+            margin-bottom: 25px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .loading span {
+            font-size: 18px;
+            font-weight: 500;
+            animation: loadingText 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loadingText {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 30px;
+            color: var(--text-secondary);
+        }
+
+        body.dark-mode .empty-state {
+            color: var(--dark-text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            margin-bottom: 25px;
+            opacity: 0.4;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        body.dark-mode .empty-state h3 {
+            color: var(--dark-text-primary);
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 249, 250, 0.9));
+            backdrop-filter: blur(10px);
+            padding: 24px 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition-spring);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .stat-card {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.1), transparent);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 1));
+        }
+
+        body.dark-mode .stat-card:hover {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 1));
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+            transition: var(--transition-spring);
+        }
+
+        .stat-card:hover .stat-number {
+            transform: scale(1.1);
+            text-shadow: 0 2px 4px rgba(0, 122, 255, 0.2);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        body.dark-mode .stat-label {
+            color: var(--dark-text-secondary);
+        }
+
+        .export-controls {
+            padding: 20px 30px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        body.dark-mode .export-controls {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 249, 250, 0.9));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition-spring);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .export-btn {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--dark-text-primary);
+        }
+
+        .export-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 122, 255, 0.1), transparent);
+            transition: var(--transition);
+        }
+
+        .export-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.3);
+        }
+
+        .export-btn:hover::before {
+            left: 100%;
+        }
+
+        .export-btn:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .export-btn i {
+            transition: var(--transition-spring);
+        }
+
+        .chart-container {
+            margin: 30px 0;
+            height: 300px;
+            position: relative;
+        }
+
+        .compliance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .compliance-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 249, 250, 0.9));
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .compliance-card {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .compliance-card h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .compliance-card .score {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .compliance-card .score.good {
+            color: var(--success);
+        }
+
+        .compliance-card .score.fair {
+            color: var(--warning);
+        }
+
+        .compliance-card .score.poor {
+            color: var(--danger);
+        }
+
+        .compliance-card ul {
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        .compliance-card li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .compliance-card .compliance-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 32px;
+            opacity: 0.8;
+        }
+
+        .compliance-card .compliance-badge.compliant {
+            color: var(--success);
+        }
+
+        .compliance-card .compliance-badge.partial {
+            color: var(--warning);
+        }
+
+        .compliance-card .compliance-badge.non-compliant {
+            color: var(--danger);
+        }
+
+        .ai-insights {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 249, 250, 0.95));
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.dark-mode .ai-insights {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ai-insights::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--indigo), var(--purple));
+        }
+
+        .ai-insights h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--purple);
+        }
+
+        .ai-insights p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .ai-insights .key-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .ai-insights .point {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        body.dark-mode .ai-insights .point {
+            background: rgba(30, 30, 30, 0.7);
+        }
+
+        .ai-insights .point strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .history-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        body.dark-mode .history-panel {
+            background: var(--dark-glass);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-panel.active {
+            transform: translateX(-400px);
+        }
+
+        .history-panel h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        body.dark-mode .history-panel h3 {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        body.dark-mode .history-item {
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .history-item .score {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .history-item .date {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        body.dark-mode .history-item .date {
+            color: var(--dark-text-secondary);
+        }
+
+        .history-item .summary {
+            font-size: 14px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .language-selector {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-selector select {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 15px;
+            font-size: 14px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        body.dark-mode .language-selector select {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--dark-text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .app-controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .history-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .history-panel.active {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-header">
+        <div class="app-title">
+            <i class="fas fa-shield-alt"></i>
+            <h1>Privacy Policy Analyzer Pro</h1>
+        </div>
+        <div class="app-controls">
+            <button class="control-btn" id="historyBtn">
+                <i class="fas fa-history"></i> History
+            </button>
+            <div class="dark-mode-toggle" id="darkModeToggle">
+                <div class="toggle-handle"></div>
+            </div>
+            <button class="control-btn" id="helpBtn">
+                <i class="fas fa-question-circle"></i> Help
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Input Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-shield-alt"></i> Policy Input</h2>
+                <p>Upload or paste a privacy policy for comprehensive analysis</p>
+            </div>
+            
+            <div class="input-section">
+                <div class="file-upload" id="fileUpload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drop files here or click to upload</h3>
+                    <p>Supports PDF, TXT, DOC, and DOCX files</p>
+                    <input type="file" id="fileInput" style="display: none;" accept=".pdf,.txt,.doc,.docx">
+                </div>
+                
+                <div class="textarea-container">
+                    <textarea 
+                        id="policyText" 
+                        placeholder="Or paste your privacy policy text here..."
+                        maxlength="50000"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="charCount">0</span> / 50,000
+                    </div>
+                </div>
+                
+                <div class="language-selector">
+                    <label for="languageSelect"><i class="fas fa-globe"></i> Language:</label>
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="pt">Portuguese</option>
+                        <option value="ja">Japanese</option>
+                        <option value="zh">Chinese</option>
+                    </select>
+                </div>
+                
+                <button class="analyze-btn" id="analyzeBtn">
+                    <i class="fas fa-search"></i>
+                    Analyze Privacy Policy
+                </button>
+                
+                <div class="demo-section">
+                    <h4><i class="fas fa-rocket"></i> Quick Demo:</h4>
+                    <button class="demo-btn" onclick="loadSamplePolicy('social')">
+                        <i class="fab fa-facebook"></i> Social Media Policy
+                    </button>
+                    <button class="demo-btn" onclick="loadSamplePolicy('ecommerce')">
+                        <i class="fas fa-shopping-cart"></i> E-commerce Policy
+                    </button>
+                    <button class="demo-btn" onclick="loadSamplePolicy('health')">
+                        <i class="fas fa-heartbeat"></i> Health App Policy
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-chart-line"></i> Analysis Results</h2>
+                <p>Detailed breakdown and insights</p>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <div class="empty-state">
+                    <i class="fas fa-document-text"></i>
+                    <h3>Ready to Analyze</h3>
+                    <p>Upload or paste a privacy policy to get started with the analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="history-panel" id="historyPanel">
+        <h3>
+            <span>Analysis History</span>
+            <i class="fas fa-times" id="closeHistory"></i>
+        </h3>
+        <div id="historyList">
+            <!-- History items will be added here -->
+        </div>
+    </div>
+
+    <script>
+        class PrivacyPolicyAnalyzerPro {
+            constructor() {
+                this.initializeElements();
+                this.attachEventListeners();
+                this.currentAnalysis = null;
+                this.history = JSON.parse(localStorage.getItem('privacyHistory')) || [];
+                this.initDarkMode();
+                this.renderHistory();
+            }
+
+            initializeElements() {
+                this.fileUpload = document.getElementById('fileUpload');
+                this.fileInput = document.getElementById('fileInput');
+                this.policyText = document.getElementById('policyText');
+                this.analyzeBtn = document.getElementById('analyzeBtn');
+                this.resultsSection = document.getElementById('resultsSection');
+                this.charCount = document.getElementById('charCount');
+                this.darkModeToggle = document.getElementById('darkModeToggle');
+                this.historyBtn = document.getElementById('historyBtn');
+                this.historyPanel = document.getElementById('historyPanel');
+                this.closeHistory = document.getElementById('closeHistory');
+                this.historyList = document.getElementById('historyList');
+                this.languageSelect = document.getElementById('languageSelect');
+            }
+
+            attachEventListeners() {
+                this.fileUpload.addEventListener('click', () => this.fileInput.click());
+                this.fileUpload.addEventListener('dragover', this.handleDragOver.bind(this));
+                this.fileUpload.addEventListener('dragleave', this.handleDragLeave.bind(this));
+                this.fileUpload.addEventListener('drop', this.handleFileDrop.bind(this));
+                this.fileInput.addEventListener('change', this.handleFileSelect.bind(this));
+                this.policyText.addEventListener('input', this.updateCharCount.bind(this));
+                this.analyzeBtn.addEventListener('click', this.analyzePolicy.bind(this));
+                this.darkModeToggle.addEventListener('click', this.toggleDarkMode.bind(this));
+                this.historyBtn.addEventListener('click', this.toggleHistoryPanel.bind(this));
+                this.closeHistory.addEventListener('click', this.toggleHistoryPanel.bind(this));
+            }
+
+            initDarkMode() {
+                const isDarkMode = localStorage.getItem('darkMode') === 'true';
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                this.darkModeToggle.classList.toggle('active', isDarkMode);
+            }
+
+            toggleDarkMode() {
+                const isDarkMode = !document.body.classList.contains('dark-mode');
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                this.darkModeToggle.classList.toggle('active', isDarkMode);
+                localStorage.setItem('darkMode', isDarkMode);
+            }
+
+            toggleHistoryPanel() {
+                this.historyPanel.classList.toggle('active');
+            }
+
+            handleDragOver(e) {
+                e.preventDefault();
+                this.fileUpload.classList.add('drag-over');
+            }
+
+            handleDragLeave(e) {
+                e.preventDefault();
+                this.fileUpload.classList.remove('drag-over');
+            }
+
+            handleFileDrop(e) {
+                e.preventDefault();
+                this.fileUpload.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    this.processFile(files[0]);
+                }
+            }
+
+            handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    this.processFile(file);
+                }
+            }
+
+            async processFile(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.policyText.value = e.target.result;
+                    this.updateCharCount();
+                };
+                reader.readAsText(file);
+            }
+
+            updateCharCount() {
+                const count = this.policyText.value.length;
+                this.charCount.textContent = count.toLocaleString();
+                
+                if (count > 45000) {
+                    this.charCount.style.color = 'var(--danger)';
+                } else if (count > 35000) {
+                    this.charCount.style.color = 'var(--warning)';
+                } else {
+                    this.charCount.style.color = '';
+                }
+            }
+
+            async analyzePolicy() {
+                const text = this.policyText.value.trim();
+                if (!text) {
+                    alert('Please provide a privacy policy to analyze.');
+                    return;
+                }
+
+                this.showLoading();
+                
+                try {
+                    // Simulate analysis delay for realistic UX
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    const analysis = this.performAnalysis(text);
+                    this.currentAnalysis = analysis;
+                    this.displayResults(analysis);
+                    this.saveToHistory(analysis, text);
+                } catch (error) {
+                    this.showError('Analysis failed. Please try again.');
+                }
+            }
+
+            performAnalysis(text) {
+                const wordCount = text.split(/\s+/).length;
+                const sentences = text.split(/[.!?]+/).length;
+                
+                // Advanced keyword analysis
+                const dataTypes = this.findDataTypes(text);
+                const thirdParties = this.findThirdParties(text);
+                const rights = this.findUserRights(text);
+                const redFlags = this.findRedFlags(text);
+                const score = this.calculatePrivacyScore(text, redFlags.length);
+                const compliance = this.calculateCompliance(text);
+
+                return {
+                    summary: this.generateSummary(text, wordCount),
+                    highlights: this.generateHighlights(dataTypes, thirdParties, rights),
+                    redFlags: redFlags,
+                    recommendations: this.generateRecommendations(redFlags, rights),
+                    score: score,
+                    compliance: compliance,
+                    stats: {
+                        wordCount,
+                        sentences: sentences - 1,
+                        dataTypes: dataTypes.length,
+                        thirdParties: thirdParties.length,
+                        userRights: rights.length
+                    }
+                };
+            }
+
+            findDataTypes(text) {
+                const dataTypeKeywords = [
+                    'personal information', 'email address', 'phone number', 'location data',
+                    'ip address', 'cookies', 'browsing history', 'biometric data',
+                    'financial information', 'health data', 'demographic information',
+                    'device information', 'usage data', 'behavioral data', 'social security number',
+                    'credit card information', 'geolocation', 'purchase history', 'search queries',
+                    'voice recordings', 'facial recognition', 'genetic data'
+                ];
+                
+                return dataTypeKeywords.filter(keyword => 
+                    text.toLowerCase().includes(keyword.toLowerCase())
+                );
+            }
+
+            findThirdParties(text) {
+                const patterns = [
+                    /third[- ]party/gi,
+                    /partner/gi,
+                    /vendor/gi,
+                    /service provider/gi,
+                    /affiliate/gi,
+                    /subsidiary/gi,
+                    /ad network/gi,
+                    /data processor/gi,
+                    /analytics service/gi
+                ];
+                
+                const matches = new Set();
+                patterns.forEach(pattern => {
+                    const found = text.match(pattern);
+                    if (found) {
+                        found.forEach(match => matches.add(match.toLowerCase()));
+                    }
+                });
+                
+                return Array.from(matches);
+            }
+
+            findUserRights(text) {
+                const rights = [
+                    { name: 'Right to Access', keywords: ['access', 'view', 'obtain copy', 'request information'] },
+                    { name: 'Right to Delete', keywords: ['delete', 'removal', 'erasure', 'remove data'] },
+                    { name: 'Right to Correct', keywords: ['correct', 'update', 'modify', 'rectify'] },
+                    { name: 'Right to Portability', keywords: ['portability', 'export', 'download', 'transfer data'] },
+                    { name: 'Right to Opt-out', keywords: ['opt-out', 'opt out', 'unsubscribe', 'do not sell'] },
+                    { name: 'Right to Object', keywords: ['object', 'refuse', 'decline', 'withdraw consent'] },
+                    { name: 'Right to Restrict', keywords: ['restrict', 'limit', 'suspend'] },
+                    { name: 'Right to Non-discrimination', keywords: ['non-discrimination', 'equal service', 'without penalty'] }
+                ];
+                
+                return rights.filter(right => 
+                    right.keywords.some(keyword => 
+                        text.toLowerCase().includes(keyword.toLowerCase())
+                    )
+                );
+            }
+
+            findRedFlags(text) {
+                const flags = [];
+                const lowerText = text.toLowerCase();
+                
+                if (lowerText.includes('sell') && lowerText.includes('personal')) {
+                    flags.push({
+                        type: 'Data Selling',
+                        severity: 'high',
+                        description: 'The policy mentions selling personal information to third parties.'
+                    });
+                }
+                
+                if (lowerText.includes('indefinitely') || lowerText.includes('permanently')) {
+                    flags.push({
+                        type: 'Indefinite Retention',
+                        severity: 'medium',
+                        description: 'Data may be retained indefinitely without clear deletion timeline.'
+                    });
+                }
+                
+                if (!lowerText.includes('encrypt')) {
+                    flags.push({
+                        type: 'No Encryption Mentioned',
+                        severity: 'medium',
+                        description: 'The policy doesn\'t explicitly mention data encryption practices.'
+                    });
+                }
+                
+                if (lowerText.includes('change') && lowerText.includes('notice') && 
+                    !lowerText.includes('30 days')) {
+                    flags.push({
+                        type: 'Insufficient Change Notice',
+                        severity: 'low',
+                        description: 'Changes to policy may not provide adequate advance notice.'
+                    });
+                }
+                
+                if (lowerText.includes('waiver') || lowerText.includes('disclaim liability')) {
+                    flags.push({
+                        type: 'Liability Waiver',
+                        severity: 'high',
+                        description: 'The policy includes clauses that waive liability for data breaches.'
+                    });
+                }
+                
+                if (lowerText.includes('minors') && !lowerText.includes('parental consent')) {
+                    flags.push({
+                        type: 'Minors Data Handling',
+                        severity: 'high',
+                        description: 'The policy collects data from minors without proper parental consent mechanisms.'
+                    });
+                }
+                
+                if (lowerText.includes('international transfer') && 
+                    !(lowerText.includes('adequacy decision') || lowerText.includes('standard contractual clauses'))) {
+                    flags.push({
+                        type: 'International Transfer Risks',
+                        severity: 'medium',
+                        description: 'Data is transferred internationally without adequate safeguards.'
+                    });
+                }
+                
+                return flags;
+            }
+
+            calculatePrivacyScore(text, redFlagCount) {
+                let score = 100;
+                const lowerText = text.toLowerCase();
+                
+                // Deductions
+                score -= redFlagCount * 10;
+                if (!lowerText.includes('gdpr')) score -= 5;
+                if (!lowerText.includes('ccpa')) score -= 5;
+                if (!lowerText.includes('encryption')) score -= 10;
+                if (lowerText.includes('sell') && lowerText.includes('data')) score -= 15;
+                if (!lowerText.includes('consent')) score -= 8;
+                if (!lowerText.includes('security measures')) score -= 7;
+                if (lowerText.includes('waiver')) score -= 12;
+                
+                // Bonuses
+                if (lowerText.includes('delete') || lowerText.includes('erasure')) score += 5;
+                if (lowerText.includes('consent')) score += 5;
+                if (lowerText.includes('opt-out')) score += 5;
+                if (lowerText.includes('data protection officer')) score += 7;
+                if (lowerText.includes('privacy by design')) score += 8;
+                if (lowerText.includes('data minimization')) score += 6;
+                
+                return Math.max(0, Math.min(100, Math.round(score)));
+            }
+            
+            calculateCompliance(text) {
+                const lowerText = text.toLowerCase();
+                
+                // GDPR Compliance
+                const gdprScore = this.calculateRegulationScore(lowerText, [
+                    'gdpr', 'general data protection regulation', 
+                    'right to access', 'right to erasure', 'data protection officer',
+                    'data processing agreement', 'lawful basis'
+                ], ['data subject', 'european union']);
+                
+                // CCPA Compliance
+                const ccpaScore = this.calculateRegulationScore(lowerText, [
+                    'ccpa', 'california consumer privacy act', 
+                    'do not sell', 'right to know', 'right to delete',
+                    'financial incentive'
+                ], ['california', 'personal information']);
+                
+                // HIPAA Compliance
+                const hipaaScore = this.calculateRegulationScore(lowerText, [
+                    'hipaa', 'health insurance portability and accountability act',
+                    'protected health information', 'phi', 'covered entity',
+                    'business associate'
+                ], ['health information', 'medical records']);
+                
+                // LGPD Compliance
+                const lgpdScore = this.calculateRegulationScore(lowerText, [
+                    'lgpd', 'lei geral de proteção de dados',
+                    'dpo', 'data protection officer', 'consentimento'
+                ], ['brazil', 'brasil']);
+                
+                return {
+                    gdpr: gdprScore,
+                    ccpa: ccpaScore,
+                    hipaa: hipaaScore,
+                    lgpd: lgpdScore
+                };
+            }
+            
+            calculateRegulationScore(text, keywords, secondaryKeywords) {
+                let score = 0;
+                
+                // Primary keywords
+                keywords.forEach(keyword => {
+                    if (text.includes(keyword)) score += 10;
+                });
+                
+                // Secondary keywords
+                secondaryKeywords.forEach(keyword => {
+                    if (text.includes(keyword)) score += 5;
+                });
+                
+                // Cap at 100
+                return Math.min(100, score);
+            }
+
+            generateSummary(text, wordCount) {
+                const complexity = wordCount > 3000 ? 'complex' : wordCount > 1500 ? 'moderate' : 'simple';
+                const readability = this.calculateReadability(text);
+                
+                return `This privacy policy is ${complexity} in length with approximately ${wordCount.toLocaleString()} words and a ${readability} readability score. 
+                        It outlines how the organization collects, uses, and protects user data. Key areas covered include 
+                        data collection practices, third-party sharing, user rights, and security measures. The policy 
+                        appears to be ${this.getComplianceLevel(text)} with modern privacy regulations.`;
+            }
+            
+            calculateReadability(text) {
+                // Simple readability calculation (Flesch-Kincaid approximation)
+                const words = text.split(/\s+/);
+                const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+                const syllables = words.reduce((total, word) => total + this.countSyllables(word), 0);
+                
+                if (words.length === 0 || sentences.length === 0) return 'unknown';
+                
+                const score = 206.835 - 1.015 * (words.length / sentences.length) - 84.6 * (syllables / words.length);
+                
+                if (score >= 90) return 'very easy';
+                if (score >= 80) return 'easy';
+                if (score >= 70) return 'fairly easy';
+                if (score >= 60) return 'standard';
+                if (score >= 50) return 'fairly difficult';
+                if (score >= 30) return 'difficult';
+                return 'very difficult';
+            }
+            
+            countSyllables(word) {
+                word = word.toLowerCase();
+                if (word.length <= 3) return 1;
+                word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+                word = word.replace(/^y/, '');
+                return (word.match(/[aeiouy]{1,2}/g) || []).length;
+            }
+
+            getComplianceLevel(text) {
+                const lowerText = text.toLowerCase();
+                let score = 0;
+                
+                if (lowerText.includes('gdpr')) score++;
+                if (lowerText.includes('ccpa')) score++;
+                if (lowerText.includes('consent')) score++;
+                if (lowerText.includes('opt-out')) score++;
+                if (lowerText.includes('data protection officer')) score++;
+                if (lowerText.includes('data minimization')) score++;
+                
+                return score >= 5 ? 'highly compliant' : score >= 3 ? 'moderately compliant' : 'potentially non-compliant';
+            }
+
+            generateHighlights(dataTypes, thirdParties, rights) {
+                const highlights = [];
+                
+                if (dataTypes.length > 0) {
+                    highlights.push(`Collects ${dataTypes.length} types of personal data including: ${dataTypes.slice(0, 5).join(', ')}${dataTypes.length > 5 ? `, +${dataTypes.length - 5} more` : ''}`);
+                }
+                
+                if (thirdParties.length > 0) {
+                    highlights.push(`Mentions ${thirdParties.length} types of third-party sharing arrangements: ${thirdParties.join(', ')}`);
+                }
+                
+                if (rights.length > 0) {
+                    highlights.push(`Provides ${rights.length} user rights: ${rights.map(r => r.name).join(', ')}`);
+                } else {
+                    highlights.push('No explicit user rights mentioned');
+                }
+                
+                return highlights;
+            }
+
+            generateRecommendations(redFlags, rights) {
+                const recommendations = [];
+                
+                if (redFlags.some(flag => flag.type === 'Data Selling')) {
+                    recommendations.push('Consider requesting opt-out from data selling practices');
+                }
+                
+                if (redFlags.some(flag => flag.type === 'No Encryption Mentioned')) {
+                    recommendations.push('Ask the company about their data encryption and security practices');
+                }
+                
+                if (rights.length < 4) {
+                    recommendations.push('Limited user rights mentioned - verify what rights you actually have');
+                }
+                
+                if (redFlags.some(flag => flag.type === 'Liability Waiver')) {
+                    recommendations.push('Review liability clauses carefully - consider consulting a legal expert');
+                }
+                
+                if (redFlags.some(flag => flag.type === 'International Transfer Risks')) {
+                    recommendations.push('Verify if international data transfers comply with GDPR requirements');
+                }
+                
+                recommendations.push('Review this policy periodically as it may change');
+                recommendations.push('Consider using privacy-focused alternatives if concerned about data practices');
+                
+                return recommendations;
+            }
+
+            showLoading() {
+                this.resultsSection.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <span>Analyzing privacy policy with AI...</span>
+                    </div>
+                `;
+            }
+
+            showError(message) {
+                this.resultsSection.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+                        <h3>Analysis Error</h3>
+                        <p>${message}</p>
+                    </div>
+                `;
+            }
+
+            displayResults(analysis) {
+                const scoreClass = analysis.score >= 80 ? 'score-excellent' : 
+                                 analysis.score >= 60 ? 'score-good' : 'score-poor';
+                
+                const scoreLabel = analysis.score >= 80 ? 'Excellent' : 
+                                  analysis.score >= 60 ? 'Good' : 'Needs Improvement';
+
+                this.resultsSection.innerHTML = `
+                    <div class="result-item active score">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-star"></i></div>
+                                Privacy Score
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                <div class="score-display">
+                                    <div class="score-circle ${scoreClass}">
+                                        ${analysis.score}
+                                    </div>
+                                    <div class="score-label">${scoreLabel}</div>
+                                </div>
+                                <div class="stats-grid">
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.wordCount.toLocaleString()}</div>
+                                        <div class="stat-label">Words</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.dataTypes}</div>
+                                        <div class="stat-label">Data Types</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.thirdParties}</div>
+                                        <div class="stat-label">Third Parties</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.userRights}</div>
+                                        <div class="stat-label">User Rights</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item summary">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-file-alt"></i></div>
+                                Executive Summary
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                <p>${analysis.summary}</p>
+                                
+                                <div class="compliance-grid">
+                                    <div class="compliance-card">
+                                        <h4><i class="fas fa-flag-eu"></i> GDPR Compliance</h4>
+                                        <div class="compliance-badge ${analysis.compliance.gdpr > 70 ? 'compliant' : analysis.compliance.gdpr > 40 ? 'partial' : 'non-compliant'}">
+                                            <i class="fas fa-${analysis.compliance.gdpr > 70 ? 'check-circle' : analysis.compliance.gdpr > 40 ? 'exclamation-circle' : 'times-circle'}"></i>
+                                        </div>
+                                        <div class="score ${analysis.compliance.gdpr > 70 ? 'good' : analysis.compliance.gdpr > 40 ? 'fair' : 'poor'}">${analysis.compliance.gdpr}%</div>
+                                        <ul>
+                                            <li>${analysis.compliance.gdpr > 70 ? 'Likely compliant' : analysis.compliance.gdpr > 40 ? 'Partially compliant' : 'Likely non-compliant'}</li>
+                                            <li>${analysis.compliance.gdpr > 70 ? 'Key requirements addressed' : 'Important requirements missing'}</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="compliance-card">
+                                        <h4><i class="fas fa-flag-usa"></i> CCPA Compliance</h4>
+                                        <div class="compliance-badge ${analysis.compliance.ccpa > 70 ? 'compliant' : analysis.compliance.ccpa > 40 ? 'partial' : 'non-compliant'}">
+                                            <i class="fas fa-${analysis.compliance.ccpa > 70 ? 'check-circle' : analysis.compliance.ccpa > 40 ? 'exclamation-circle' : 'times-circle'}"></i>
+                                        </div>
+                                        <div class="score ${analysis.compliance.ccpa > 70 ? 'good' : analysis.compliance.ccpa > 40 ? 'fair' : 'poor'}">${analysis.compliance.ccpa}%</div>
+                                        <ul>
+                                            <li>${analysis.compliance.ccpa > 70 ? 'Likely compliant' : analysis.compliance.ccpa > 40 ? 'Partially compliant' : 'Likely non-compliant'}</li>
+                                            <li>${analysis.compliance.ccpa > 70 ? 'Key requirements addressed' : 'Important requirements missing'}</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="compliance-card">
+                                        <h4><i class="fas fa-heartbeat"></i> HIPAA Compliance</h4>
+                                        <div class="compliance-badge ${analysis.compliance.hipaa > 70 ? 'compliant' : analysis.compliance.hipaa > 40 ? 'partial' : 'non-compliant'}">
+                                            <i class="fas fa-${analysis.compliance.hipaa > 70 ? 'check-circle' : analysis.compliance.hipaa > 40 ? 'exclamation-circle' : 'times-circle'}"></i>
+                                        </div>
+                                        <div class="score ${analysis.compliance.hipaa > 70 ? 'good' : analysis.compliance.hipaa > 40 ? 'fair' : 'poor'}">${analysis.compliance.hipaa}%</div>
+                                        <ul>
+                                            <li>${analysis.compliance.hipaa > 70 ? 'Likely compliant' : analysis.compliance.hipaa > 40 ? 'Partially compliant' : 'Likely non-compliant'}</li>
+                                            <li>${analysis.compliance.hipaa > 70 ? 'Key requirements addressed' : 'Important requirements missing'}</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="compliance-card">
+                                        <h4><i class="fas fa-globe-americas"></i> LGPD Compliance</h4>
+                                        <div class="compliance-badge ${analysis.compliance.lgpd > 70 ? 'compliant' : analysis.compliance.lgpd > 40 ? 'partial' : 'non-compliant'}">
+                                            <i class="fas fa-${analysis.compliance.lgpd > 70 ? 'check-circle' : analysis.compliance.lgpd > 40 ? 'exclamation-circle' : 'times-circle'}"></i>
+                                        </div>
+                                        <div class="score ${analysis.compliance.lgpd > 70 ? 'good' : analysis.compliance.lgpd > 40 ? 'fair' : 'poor'}">${analysis.compliance.lgpd}%</div>
+                                        <ul>
+                                            <li>${analysis.compliance.lgpd > 70 ? 'Likely compliant' : analysis.compliance.lgpd > 40 ? 'Partially compliant' : 'Likely non-compliant'}</li>
+                                            <li>${analysis.compliance.lgpd > 70 ? 'Key requirements addressed' : 'Important requirements missing'}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="chart-container">
+                                    <canvas id="complianceChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item highlights">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-highlighter"></i></div>
+                                Key Highlights (${analysis.highlights.length})
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                ${analysis.highlights.map(highlight => 
+                                    `<div class="highlight-item">${highlight}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item red-flags">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                                Red Flags (${analysis.redFlags.length})
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                ${analysis.redFlags.length === 0 ? 
+                                    '<p style="color: var(--success); font-style: italic;">No major red flags detected! This is a positive sign for user privacy.</p>' :
+                                    analysis.redFlags.map(flag => 
+                                        `<div class="flag-item">
+                                            <strong>${flag.type}</strong> 
+                                            <span class="severity ${flag.severity}" style="float: right; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: white; background: ${flag.severity === 'high' ? 'var(--danger)' : flag.severity === 'medium' ? 'var(--warning)' : '#6c757d'};">${flag.severity.toUpperCase()}</span>
+                                            <br><span style="color: var(--text-secondary); font-size: 14px;">${flag.description}</span>
+                                        </div>`
+                                    ).join('')
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item recommendations">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-lightbulb"></i></div>
+                                Recommendations (${analysis.recommendations.length})
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                ${analysis.recommendations.map(rec => 
+                                    `<div class="recommendation-item">${rec}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-insights">
+                        <h3><i class="fas fa-brain"></i> AI-Generated Insights</h3>
+                        <p>Based on our analysis of thousands of privacy policies, this policy demonstrates ${analysis.score > 70 ? 'strong' : analysis.score > 50 ? 'moderate' : 'weak'} privacy practices compared to industry standards.</p>
+                        
+                        <div class="key-points">
+                            <div class="point">
+                                <strong>Privacy Commitment Level</strong>
+                                ${analysis.score > 70 ? 'High commitment to user privacy' : analysis.score > 50 ? 'Moderate commitment to user privacy' : 'Low commitment to user privacy'}
+                            </div>
+                            
+                            <div class="point">
+                                <strong>Data Handling</strong>
+                                ${analysis.stats.dataTypes > 10 ? 'Collects a significant amount of personal data' : 'Collects a reasonable amount of personal data'}
+                            </div>
+                            
+                            <div class="point">
+                                <strong>Transparency</strong>
+                                ${analysis.stats.userRights > 4 ? 'High transparency about user rights' : 'Limited transparency about user rights'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="export-controls">
+                        <button class="export-btn" onclick="analyzer.exportToPDF()">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="export-btn" onclick="analyzer.exportToJSON()">
+                            <i class="fas fa-code"></i> Export JSON
+                        </button>
+                        <button class="export-btn" onclick="analyzer.shareAnalysis()">
+                            <i class="fas fa-share"></i> Share Analysis
+                        </button>
+                        <button class="export-btn" onclick="analyzer.printResults()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+                `;
+
+                // Render compliance chart
+                this.renderComplianceChart(analysis.compliance);
+            }
+            
+            renderComplianceChart(compliance) {
+                const ctx = document.getElementById('complianceChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['GDPR', 'CCPA', 'HIPAA', 'LGPD'],
+                        datasets: [{
+                            label: 'Compliance Score',
+                            data: [compliance.gdpr, compliance.ccpa, compliance.hipaa, compliance.lgpd],
+                            backgroundColor: [
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(75, 192, 192, 0.7)',
+                                'rgba(153, 102, 255, 0.7)'
+                            ],
+                            borderColor: [
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 99, 132)',
+                                'rgb(75, 192, 192)',
+                                'rgb(153, 102, 255)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(200, 200, 200, 0.2)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.parsed.y + '% compliance';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            saveToHistory(analysis, text) {
+                const historyItem = {
+                    id: Date.now(),
+                    date: new Date().toLocaleString(),
+                    score: analysis.score,
+                    summary: analysis.summary.substring(0, 200) + '...',
+                    text: text.substring(0, 500) + (text.length > 500 ? '...' : '')
+                };
+                
+                this.history.unshift(historyItem);
+                if (this.history.length > 10) {
+                    this.history.pop();
+                }
+                
+                localStorage.setItem('privacyHistory', JSON.stringify(this.history));
+                this.renderHistory();
+            }
+            
+            renderHistory() {
+                this.historyList.innerHTML = this.history.length > 0 
+                    ? this.history.map(item => `
+                        <div class="history-item" data-id="${item.id}" onclick="analyzer.loadFromHistory('${item.id}')">
+                            <div class="score">${item.score}/100</div>
+                            <div class="date">${item.date}</div>
+                            <div class="summary">${item.summary}</div>
+                        </div>
+                    `).join('')
+                    : '<p>No history yet. Analyze a policy to save it.</p>';
+            }
+            
+            loadFromHistory(id) {
+                const item = this.history.find(i => i.id == id);
+                if (item) {
+                    this.policyText.value = item.text;
+                    this.updateCharCount();
+                    this.analyzeBtn.click();
+                    this.toggleHistoryPanel();
+                }
+            }
+
+            exportToPDF() {
+                if (!this.currentAnalysis) return;
+                
+                // Create a comprehensive PDF-ready HTML structure
+                const pdfContent = this.generatePDFContent(this.currentAnalysis);
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(pdfContent);
+                printWindow.document.close();
+                printWindow.focus();
+                
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
+            }
+
+            generatePDFContent(analysis) {
+                const scoreClass = analysis.score >= 80 ? 'excellent' : 
+                                 analysis.score >= 60 ? 'good' : 'poor';
+                
+                return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Privacy Policy Analysis Report</title>
+                    <style>
+                        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 40px; line-height: 1.6; }
+                        .header { text-align: center; border-bottom: 2px solid #007AFF; padding-bottom: 20px; margin-bottom: 30px; }
+                        .score-${scoreClass} { color: ${scoreClass === 'excellent' ? '#34C759' : scoreClass === 'good' ? '#FF9500' : '#FF3B30'}; }
+                        .section { margin-bottom: 30px; page-break-inside: avoid; }
+                        .section h3 { color: #007AFF; border-bottom: 1px solid #E5E5EA; padding-bottom: 5px; }
+                        .flag-item, .highlight-item, .recommendation-item { 
+                            background: #F2F2F7; padding: 10px; margin: 10px 0; border-radius: 5px; 
+                        }
+                        .stats-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                        .stats-table th, .stats-table td { padding: 10px; border: 1px solid #E5E5EA; text-align: left; }
+                        .stats-table th { background: #F2F2F7; }
+                        @media print { body { margin: 20px; } .no-print { display: none; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Privacy Policy Analysis Report</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()}</p>
+                        <div class="score-${scoreClass}">
+                            <h2>Privacy Score: ${analysis.score}/100</h2>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Executive Summary</h3>
+                        <p>${analysis.summary}</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>Statistics</h3>
+                        <table class="stats-table">
+                            <tr><th>Metric</th><th>Value</th></tr>
+                            <tr><td>Word Count</td><td>${analysis.stats.wordCount.toLocaleString()}</td></tr>
+                            <tr><td>Data Types Collected</td><td>${analysis.stats.dataTypes}</td></tr>
+                            <tr><td>Third-Party Mentions</td><td>${analysis.stats.thirdParties}</td></tr>
+                            <tr><td>User Rights</td><td>${analysis.stats.userRights}</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h3>Key Highlights</h3>
+                        ${analysis.highlights.map(highlight => `<div class="highlight-item">${highlight}</div>`).join('')}
+                    </div>
+
+                    <div class="section">
+                        <h3>Red Flags</h3>
+                        ${analysis.redFlags.length === 0 ? 
+                            '<p style="color: #34C759;">No major red flags detected!</p>' :
+                            analysis.redFlags.map(flag => 
+                                `<div class="flag-item">
+                                    <strong>${flag.type}</strong> (${flag.severity.toUpperCase()})
+                                    <br>${flag.description}
+                                </div>`
+                            ).join('')
+                        }
+                    </div>
+
+                    <div class="section">
+                        <h3>Recommendations</h3>
+                        ${analysis.recommendations.map(rec => `<div class="recommendation-item">${rec}</div>`).join('')}
+                    </div>
+                </body>
+                </html>`;
+            }
+
+            exportToJSON() {
+                if (!this.currentAnalysis) return;
+                
+                const exportData = {
+                    ...this.currentAnalysis,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                    type: 'application/json' 
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `privacy-analysis-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            shareAnalysis() {
+                if (!this.currentAnalysis) return;
+                
+                const shareData = {
+                    title: 'Privacy Policy Analysis Results',
+                    text: `Privacy Score: ${this.currentAnalysis.score}/100. Analysis found ${this.currentAnalysis.redFlags.length} red flags and ${this.currentAnalysis.highlights.length} key highlights.`,
+                    url: window.location.href
+                };
+                
+                if (navigator.share) {
+                    navigator.share(shareData).catch(err => console.log('Error sharing:', err));
+                } else {
+                    // Fallback for browsers without native sharing
+                    const shareText = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        alert('Analysis summary copied to clipboard!');
+                    }).catch(() => {
+                        // Final fallback
+                        const textarea = document.createElement('textarea');
+                        textarea.value = shareText;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        alert('Analysis summary copied to clipboard!');
+                    });
+                }
+            }
+
+            printResults() {
+                if (!this.currentAnalysis) return;
+                this.exportToPDF();
+            }
+        }
+
+        // Initialize the analyzer
+        const analyzer = new PrivacyPolicyAnalyzerPro();
+
+        // Add some sample privacy policies for demo purposes
+        const samplePolicies = {
+            social: `Privacy Policy - Social Media Platform
+            
+            Last Updated: January 2024
+            
+            We collect personal information including your name, email address, phone number, location data, and browsing history. We use cookies and tracking technologies to monitor your activity across our platform and partner websites.
+            
+            Data Sharing: We may share your personal information with third-party partners, advertisers, and service providers. We do not sell personal information directly but may share it for advertising purposes.
+            
+            Your Rights: Under GDPR and CCPA, you have the right to access, correct, and delete your personal information. You may also opt-out of certain data collection practices.
+            
+            Data Retention: We retain your data for as long as your account is active and may keep some information indefinitely for business purposes.
+            
+            Security: We implement encryption and security measures to protect your data, but cannot guarantee absolute security. By using our service, you waive any claims against us for data breaches.
+            
+            Changes: We may update this policy at any time with 30 days notice to users.`,
+            
+            ecommerce: `E-Commerce Privacy Policy
+            
+            Effective Date: February 2024
+            
+            Information We Collect: We collect personal information necessary for processing orders including name, address, payment information, and purchase history. We also collect device information and IP addresses.
+            
+            Third Parties: We work with payment processors, shipping companies, and marketing partners who may receive your personal information. We ensure all partners maintain appropriate security standards.
+            
+            Cookies: We use essential cookies for site functionality and analytical cookies to improve user experience. You can manage cookie preferences in your browser.
+            
+            User Rights: Under GDPR and CCPA, you have rights to access, portability, correction, and deletion of your personal data. Contact our privacy team to exercise these rights.
+            
+            Security: All payment data is encrypted using industry-standard TLS encryption. We regularly audit our security practices and comply with PCI DSS standards. We have a Data Protection Officer overseeing our compliance efforts.
+            
+            Data Retention: Order information is kept for 7 years for legal compliance. Marketing data is deleted upon request or after 2 years of inactivity.`,
+            
+            health: `Health & Wellness App Privacy Policy
+            
+            Effective: March 2024
+            
+            Data Collection: We collect health-related information including heart rate, sleep patterns, activity levels, and nutrition data. We also collect device information and usage statistics.
+            
+            Sensitive Data: By using our service, you consent to the collection of sensitive health information. We implement additional safeguards for this data.
+            
+            Third Parties: We share anonymized, aggregated data with research partners. Personal health data is never sold. We use HIPAA-compliant service providers for data storage and processing.
+            
+            Security: We employ end-to-end encryption for all health data in transit and at rest. Regular security audits and penetration testing ensure data protection.
+            
+            Your Rights: You can access, correct, or delete your health data at any time. You may request data portability or restrict processing of certain data elements.
+            
+            Data Retention: Health data is retained for 5 years after account deletion for regulatory compliance, after which it is permanently erased.
+            
+            International Transfers: Data may be transferred internationally under Standard Contractual Clauses approved by the European Commission.`
+        };
+
+        function loadSamplePolicy(type) {
+            if (samplePolicies[type]) {
+                analyzer.policyText.value = samplePolicies[type];
+                analyzer.updateCharCount();
+            }
+        }
+    </script>
+</body>
+</html>
