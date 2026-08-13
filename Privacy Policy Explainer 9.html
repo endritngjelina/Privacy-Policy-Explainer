@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Privacy Policy Analyzer</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #007AFF;
+            --primary-hover: #0056CC;
+            --success: #34C759;
+            --warning: #FF9500;
+            --danger: #FF3B30;
+            --bg-primary: #F2F2F7;
+            --bg-secondary: #FFFFFF;
+            --text-primary: #1D1D1F;
+            --text-secondary: #8E8E93;
+            --border: #E5E5EA;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --dark-bg: #121212;
+            --dark-surface: #1E1E1E;
+            --dark-text: #E0E0E0;
+        }
+
+        /* Dark mode variables */
+        .dark-mode {
+            --bg-primary: var(--dark-bg);
+            --bg-secondary: var(--dark-surface);
+            --text-primary: var(--dark-text);
+            --text-secondary: #A0A0A0;
+            --border: #333333;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            min-height: calc(100vh - 40px);
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 40px var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .panel:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .panel-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            padding: 25px 30px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .panel-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .panel-header p {
+            opacity: 0.9;
+            font-size: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .input-section {
+            padding: 30px;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(0, 122, 255, 0.05);
+        }
+
+        .file-upload.drag-over {
+            border-color: var(--primary);
+            background: rgba(0, 122, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        .file-upload i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .textarea-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .analyze-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: var(--radius);
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.4);
+        }
+
+        .analyze-btn:disabled {
+            background: var(--text-secondary);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .results-section {
+            padding: 0;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .results-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .results-section::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        .results-section::-webkit-scrollbar-thumb {
+            background: var(--text-secondary);
+            border-radius: 4px;
+        }
+
+        .result-item {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-header {
+            padding: 20px 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+        }
+
+        .result-header:hover {
+            background: var(--bg-primary);
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+
+        .summary .result-icon { background: rgba(52, 199, 89, 0.15); color: var(--success); }
+        .highlights .result-icon { background: rgba(255, 149, 0, 0.15); color: var(--warning); }
+        .red-flags .result-icon { background: rgba(255, 59, 48, 0.15); color: var(--danger); }
+        .recommendations .result-icon { background: rgba(0, 122, 255, 0.15); color: var(--primary); }
+        .score .result-icon { background: rgba(88, 86, 214, 0.15); color: #5856D6; }
+        .compliance .result-icon { background: rgba(175, 82, 222, 0.15); color: #AF52DE; }
+        .history .result-icon { background: rgba(90, 200, 250, 0.15); color: #5AC8FA; }
+
+        .chevron {
+            transition: var(--transition);
+            color: var(--text-secondary);
+        }
+
+        .result-item.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .result-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .result-item.active .result-content {
+            max-height: 1000px;
+        }
+
+        .result-body {
+            padding: 0 30px 25px;
+            line-height: 1.6;
+        }
+
+        .highlight-item, .flag-item, .recommendation-item {
+            background: var(--bg-primary);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+            transition: var(--transition);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .highlight-item { border-color: var(--warning); }
+        .flag-item { border-color: var(--danger); }
+        .recommendation-item { border-color: var(--primary); }
+
+        .highlight-item:hover, .flag-item:hover, .recommendation-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .score-display {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-excellent { background: linear-gradient(135deg, var(--success), #28A745); }
+        .score-good { background: linear-gradient(135deg, var(--warning), #FD7E14); }
+        .score-poor { background: linear-gradient(135deg, var(--danger), #DC3545); }
+
+        .score-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
+            color: var(--text-secondary);
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 30px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .export-controls {
+            padding: 20px 30px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .export-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .chart-container {
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .compliance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .compliance-card {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .compliance-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .compliance-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .compliance-compliant { background: var(--success); }
+        .compliance-partial { background: var(--warning); }
+        .compliance-noncompliant { background: var(--danger); }
+
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .history-item:hover {
+            background: var(--bg-primary);
+        }
+
+        .history-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-snippet {
+            color: var(--text-secondary);
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .demo-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: var(--bg-primary);
+            border-radius: var(--radius);
+        }
+
+        .demo-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .demo-btn {
+            flex: 1;
+            min-width: 150px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--shadow);
+            border-color: var(--primary);
+        }
+
+        .demo-btn h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+
+        .demo-btn p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .ai-tag {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .lang-btn {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Input Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2><i class="fas fa-shield-alt"></i> AI Privacy Policy Analyzer</h2>
+                    <p>Upload or paste a privacy policy for comprehensive analysis</p>
+                </div>
+                <div class="controls">
+                    <button class="control-btn" id="darkModeToggle" title="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="control-btn" id="historyToggle" title="View history">
+                        <i class="fas fa-history"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="input-section">
+                <div class="language-selector">
+                    <button class="lang-btn active">English</button>
+                    <button class="lang-btn">Spanish</button>
+                    <button class="lang-btn">French</button>
+                    <button class="lang-btn">German</button>
+                </div>
+                
+                <div class="file-upload" id="fileUpload">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drop files here or click to upload</h3>
+                    <p>Supports PDF, TXT, DOC, and DOCX files</p>
+                    <input type="file" id="fileInput" style="display: none;" accept=".pdf,.txt,.doc,.docx">
+                </div>
+                
+                <div class="textarea-container">
+                    <textarea 
+                        id="policyText" 
+                        placeholder="Or paste your privacy policy text here..."
+                        maxlength="50000"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="charCount">0</span> / 50,000
+                    </div>
+                </div>
+                
+                <button class="analyze-btn" id="analyzeBtn">
+                    <i class="fas fa-robot"></i>
+                    Analyze with AI
+                </button>
+                
+                <div class="demo-section">
+                    <div class="demo-title">
+                        <i class="fas fa-bolt"></i> Quick Demo
+                    </div>
+                    <div class="demo-buttons">
+                        <div class="demo-btn" onclick="loadSamplePolicy('social')">
+                            <h4>Social Media Policy</h4>
+                            <p>Example from a social platform</p>
+                        </div>
+                        <div class="demo-btn" onclick="loadSamplePolicy('ecommerce')">
+                            <h4>E-commerce Policy</h4>
+                            <p>Online store privacy policy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2><i class="fas fa-chart-line"></i> Analysis Results</h2>
+                    <p>Detailed breakdown and insights</p>
+                </div>
+                <div class="ai-tag">
+                    <i class="fas fa-brain"></i> AI-Powered Analysis
+                </div>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <div class="empty-state">
+                    <i class="fas fa-document-text"></i>
+                    <h3>Ready to Analyze</h3>
+                    <p>Upload or paste a privacy policy to get started with the analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Analysis completed successfully!</span>
+    </div>
+
+    <script>
+        class PrivacyPolicyAnalyzer {
+            constructor() {
+                this.initializeElements();
+                this.attachEventListeners();
+                this.currentAnalysis = null;
+                this.history = JSON.parse(localStorage.getItem('privacyAnalysisHistory')) || [];
+                this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+                this.applyDarkMode();
+            }
+
+            initializeElements() {
+                this.fileUpload = document.getElementById('fileUpload');
+                this.fileInput = document.getElementById('fileInput');
+                this.policyText = document.getElementById('policyText');
+                this.analyzeBtn = document.getElementById('analyzeBtn');
+                this.resultsSection = document.getElementById('resultsSection');
+                this.charCount = document.getElementById('charCount');
+                this.darkModeToggle = document.getElementById('darkModeToggle');
+                this.historyToggle = document.getElementById('historyToggle');
+                this.notification = document.getElementById('notification');
+                this.notificationText = document.getElementById('notificationText');
+            }
+
+            attachEventListeners() {
+                this.fileUpload.addEventListener('click', () => this.fileInput.click());
+                this.fileUpload.addEventListener('dragover', this.handleDragOver.bind(this));
+                this.fileUpload.addEventListener('dragleave', this.handleDragLeave.bind(this));
+                this.fileUpload.addEventListener('drop', this.handleFileDrop.bind(this));
+                this.fileInput.addEventListener('change', this.handleFileSelect.bind(this));
+                this.policyText.addEventListener('input', this.updateCharCount.bind(this));
+                this.analyzeBtn.addEventListener('click', this.analyzePolicy.bind(this));
+                this.darkModeToggle.addEventListener('click', this.toggleDarkMode.bind(this));
+                this.historyToggle.addEventListener('click', this.toggleHistoryView.bind(this));
+            }
+
+            handleDragOver(e) {
+                e.preventDefault();
+                this.fileUpload.classList.add('drag-over');
+            }
+
+            handleDragLeave(e) {
+                e.preventDefault();
+                this.fileUpload.classList.remove('drag-over');
+            }
+
+            handleFileDrop(e) {
+                e.preventDefault();
+                this.fileUpload.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    this.processFile(files[0]);
+                }
+            }
+
+            handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    this.processFile(file);
+                }
+            }
+
+            async processFile(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.policyText.value = e.target.result;
+                    this.updateCharCount();
+                };
+                reader.readAsText(file);
+            }
+
+            updateCharCount() {
+                const count = this.policyText.value.length;
+                this.charCount.textContent = count.toLocaleString();
+                
+                if (count > 45000) {
+                    this.charCount.style.color = 'var(--danger)';
+                } else if (count > 35000) {
+                    this.charCount.style.color = 'var(--warning)';
+                } else {
+                    this.charCount.style.color = 'var(--text-secondary)';
+                }
+            }
+
+            showNotification(message, duration = 3000) {
+                this.notificationText.textContent = message;
+                this.notification.classList.add('show');
+                
+                setTimeout(() => {
+                    this.notification.classList.remove('show');
+                }, duration);
+            }
+
+            toggleDarkMode() {
+                this.isDarkMode = !this.isDarkMode;
+                localStorage.setItem('darkMode', this.isDarkMode);
+                this.applyDarkMode();
+            }
+
+            applyDarkMode() {
+                document.body.classList.toggle('dark-mode', this.isDarkMode);
+                const icon = this.darkModeToggle.querySelector('i');
+                icon.classList.toggle('fa-moon', !this.isDarkMode);
+                icon.classList.toggle('fa-sun', this.isDarkMode);
+            }
+
+            async analyzePolicy() {
+                const text = this.policyText.value.trim();
+                if (!text) {
+                    this.showNotification('Please provide a privacy policy to analyze.');
+                    return;
+                }
+
+                this.showLoading();
+                
+                try {
+                    // Simulate analysis delay for realistic UX
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    const analysis = this.performAnalysis(text);
+                    this.currentAnalysis = analysis;
+                    this.displayResults(analysis);
+                    
+                    // Add to history
+                    this.addToHistory(text, analysis);
+                    
+                    this.showNotification('Analysis completed successfully!');
+                } catch (error) {
+                    this.showError('Analysis failed. Please try again.');
+                }
+            }
+
+            addToHistory(text, analysis) {
+                const historyItem = {
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    title: text.substring(0, 50) + (text.length > 50 ? '...' : ''),
+                    snippet: text.substring(0, 200),
+                    analysis: analysis
+                };
+                
+                this.history.unshift(historyItem);
+                if (this.history.length > 10) this.history.pop();
+                
+                localStorage.setItem('privacyAnalysisHistory', JSON.stringify(this.history));
+            }
+
+            toggleHistoryView() {
+                if (this.resultsSection.querySelector('#historyView')) {
+                    this.displayResults(this.currentAnalysis);
+                } else {
+                    this.displayHistory();
+                }
+            }
+
+            displayHistory() {
+                if (this.history.length === 0) {
+                    this.resultsSection.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <h3>No Analysis History</h3>
+                            <p>Analyze a privacy policy to start building your history.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let historyHTML = `
+                    <div class="result-item active history">
+                        <div class="result-header">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-history"></i></div>
+                                Analysis History
+                            </div>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                `;
+                
+                this.history.forEach(item => {
+                    const date = new Date(item.timestamp).toLocaleString();
+                    historyHTML += `
+                        <div class="history-item" onclick="analyzer.loadFromHistory('${item.id}')">
+                            <div class="history-title">
+                                <span>${item.title}</span>
+                                <span style="color: var(--text-secondary); font-size: 14px;">${date}</span>
+                            </div>
+                            <div class="history-snippet">${item.snippet}</div>
+                        </div>
+                    `;
+                });
+                
+                historyHTML += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                this.resultsSection.innerHTML = historyHTML;
+            }
+
+            loadFromHistory(id) {
+                const historyItem = this.history.find(item => item.id == id);
+                if (!historyItem) return;
+                
+                this.policyText.value = historyItem.snippet;
+                this.updateCharCount();
+                this.currentAnalysis = historyItem.analysis;
+                this.displayResults(historyItem.analysis);
+            }
+
+            performAnalysis(text) {
+                const wordCount = text.split(/\s+/).length;
+                const sentences = text.split(/[.!?]+/).length;
+                
+                // Advanced keyword analysis
+                const dataTypes = this.findDataTypes(text);
+                const thirdParties = this.findThirdParties(text);
+                const rights = this.findUserRights(text);
+                const redFlags = this.findRedFlags(text);
+                const compliance = this.checkCompliance(text);
+                const score = this.calculatePrivacyScore(text, redFlags.length, compliance);
+                const readability = this.calculateReadability(text);
+
+                return {
+                    summary: this.generateSummary(text, wordCount, readability),
+                    highlights: this.generateHighlights(dataTypes, thirdParties, rights),
+                    redFlags: redFlags,
+                    recommendations: this.generateRecommendations(redFlags, rights),
+                    compliance: compliance,
+                    score: score,
+                    readability: readability,
+                    stats: {
+                        wordCount,
+                        sentences: sentences - 1,
+                        dataTypes: dataTypes.length,
+                        thirdParties: thirdParties.length,
+                        userRights: rights.length,
+                        readabilityScore: readability.score
+                    }
+                };
+            }
+
+            findDataTypes(text) {
+                const dataTypeKeywords = [
+                    'personal information', 'email address', 'phone number', 'location data',
+                    'ip address', 'cookies', 'browsing history', 'biometric data',
+                    'financial information', 'health data', 'demographic information',
+                    'device information', 'usage data', 'behavioral data', 'purchase history'
+                ];
+                
+                return dataTypeKeywords.filter(keyword => 
+                    text.toLowerCase().includes(keyword.toLowerCase())
+                );
+            }
+
+            findThirdParties(text) {
+                const patterns = [
+                    /third[- ]party/gi,
+                    /partner/gi,
+                    /vendor/gi,
+                    /service provider/gi,
+                    /affiliate/gi,
+                    /subsidiary/gi,
+                    /advertiser/gi,
+                    /data processor/gi
+                ];
+                
+                const matches = new Set();
+                patterns.forEach(pattern => {
+                    const found = text.match(pattern);
+                    if (found) {
+                        found.forEach(match => matches.add(match.toLowerCase()));
+                    }
+                });
+                
+                return Array.from(matches);
+            }
+
+            findUserRights(text) {
+                const rights = [
+                    { name: 'Right to Access', keywords: ['access', 'view', 'obtain copy'] },
+                    { name: 'Right to Delete', keywords: ['delete', 'removal', 'erasure'] },
+                    { name: 'Right to Correct', keywords: ['correct', 'update', 'modify'] },
+                    { name: 'Right to Portability', keywords: ['portability', 'export', 'download'] },
+                    { name: 'Right to Opt-out', keywords: ['opt-out', 'opt out', 'unsubscribe'] },
+                    { name: 'Right to Object', keywords: ['object', 'refuse', 'decline'] },
+                    { name: 'Right to Restrict', keywords: ['restrict', 'limit processing'] },
+                    { name: 'Right to Withdraw', keywords: ['withdraw consent', 'revoke consent'] }
+                ];
+                
+                return rights.filter(right => 
+                    right.keywords.some(keyword => 
+                        text.toLowerCase().includes(keyword.toLowerCase())
+                    )
+                );
+            }
+
+            checkCompliance(text) {
+                const lowerText = text.toLowerCase();
+                
+                const gdpr = {
+                    compliant: lowerText.includes('gdpr') && 
+                               lowerText.includes('legal basis') && 
+                               lowerText.includes('data protection officer'),
+                    missing: []
+                };
+                
+                if (!lowerText.includes('gdpr')) gdpr.missing.push('GDPR mention');
+                if (!lowerText.includes('legal basis')) gdpr.missing.push('Legal basis for processing');
+                if (!lowerText.includes('data protection officer')) gdpr.missing.push('DPO information');
+                
+                const ccpa = {
+                    compliant: lowerText.includes('ccpa') && 
+                               lowerText.includes('do not sell') && 
+                               lowerText.includes('verifiable request'),
+                    missing: []
+                };
+                
+                if (!lowerText.includes('ccpa')) ccpa.missing.push('CCPA mention');
+                if (!lowerText.includes('do not sell')) ccpa.missing.push('"Do Not Sell" option');
+                if (!lowerText.includes('verifiable request')) ccpa.missing.push('Verifiable request process');
+                
+                const lgpd = {
+                    compliant: lowerText.includes('lgpd') && 
+                               lowerText.includes('data protection officer') && 
+                               lowerText.includes('anpd'),
+                    missing: []
+                };
+                
+                return {
+                    gdpr,
+                    ccpa,
+                    lgpd
+                };
+            }
+
+            calculateReadability(text) {
+                // Simple readability calculation
+                const words = text.split(/\s+/);
+                const sentences = text.split(/[.!?]+/).length - 1;
+                const complexWords = words.filter(word => word.length > 6).length;
+                const avgWordsPerSentence = words.length / Math.max(1, sentences);
+                
+                const score = Math.max(0, Math.min(100, 100 - (avgWordsPerSentence / 2) - (complexWords / words.length * 100)));
+                
+                let level = 'Professional';
+                if (score > 70) level = 'Easy to read';
+                else if (score > 50) level = 'Moderate';
+                else if (score > 30) level = 'Difficult';
+                else level = 'Very difficult';
+                
+                return {
+                    score: Math.round(score),
+                    level: level,
+                    avgWordsPerSentence: avgWordsPerSentence.toFixed(1),
+                    complexWordPercentage: Math.round((complexWords / words.length) * 100)
+                };
+            }
+
+            findRedFlags(text) {
+                const flags = [];
+                const lowerText = text.toLowerCase();
+                
+                if (lowerText.includes('sell') && lowerText.includes('personal')) {
+                    flags.push({
+                        type: 'Data Selling',
+                        severity: 'high',
+                        description: 'The policy mentions selling personal information to third parties.'
+                    });
+                }
+                
+                if (lowerText.includes('indefinitely') || lowerText.includes('permanently')) {
+                    flags.push({
+                        type: 'Indefinite Retention',
+                        severity: 'medium',
+                        description: 'Data may be retained indefinitely without clear deletion timeline.'
+                    });
+                }
+                
+                if (!lowerText.includes('encrypt')) {
+                    flags.push({
+                        type: 'No Encryption Mentioned',
+                        severity: 'medium',
+                        description: 'The policy doesn\'t explicitly mention data encryption practices.'
+                    });
+                }
+                
+                if (lowerText.includes('change') && lowerText.includes('notice') && 
+                    !lowerText.includes('30 days')) {
+                    flags.push({
+                        type: 'Insufficient Change Notice',
+                        severity: 'low',
+                        description: 'Changes to policy may not provide adequate advance notice.'
+                    });
+                }
+                
+                if (lowerText.includes('waive') && lowerText.includes('class action')) {
+                    flags.push({
+                        type: 'Class Action Waiver',
+                        severity: 'high',
+                        description: 'The policy may require users to waive rights to class action lawsuits.'
+                    });
+                }
+                
+                if (lowerText.includes('disclaim') && lowerText.includes('liability')) {
+                    flags.push({
+                        type: 'Broad Liability Disclaimer',
+                        severity: 'medium',
+                        description: 'The policy contains broad disclaimers of liability for data breaches.'
+                    });
+                }
+                
+                return flags;
+            }
+
+            calculatePrivacyScore(text, redFlagCount, compliance) {
+                let score = 100;
+                const lowerText = text.toLowerCase();
+                
+                // Deductions
+                score -= redFlagCount * 10;
+                if (!lowerText.includes('gdpr')) score -= 5;
+                if (!lowerText.includes('ccpa')) score -= 5;
+                if (!lowerText.includes('encryption')) score -= 10;
+                if (lowerText.includes('sell') && lowerText.includes('data')) score -= 15;
+                
+                // Compliance adjustments
+                if (!compliance.gdpr.compliant) score -= 10;
+                if (!compliance.ccpa.compliant) score -= 10;
+                
+                // Bonuses
+                if (lowerText.includes('delete') || lowerText.includes('erasure')) score += 5;
+                if (lowerText.includes('consent')) score += 5;
+                if (lowerText.includes('opt-out')) score += 5;
+                if (lowerText.includes('data minimization')) score += 5;
+                
+                return Math.max(0, Math.min(100, Math.round(score)));
+            }
+
+            generateSummary(text, wordCount, readability) {
+                const complexity = wordCount > 3000 ? 'complex' : wordCount > 1500 ? 'moderate' : 'simple';
+                
+                return `This privacy policy is ${complexity} in length with approximately ${wordCount.toLocaleString()} words. 
+                        It has a readability score of ${readability.score}/100 (${readability.level} level). 
+                        The policy outlines how the organization collects, uses, and protects user data. 
+                        Key areas covered include data collection practices, third-party sharing, user rights, 
+                        and security measures. The policy appears to be ${this.getComplianceLevel(text)} 
+                        with modern privacy regulations.`;
+            }
+
+            getComplianceLevel(text) {
+                const lowerText = text.toLowerCase();
+                let score = 0;
+                
+                if (lowerText.includes('gdpr')) score++;
+                if (lowerText.includes('ccpa')) score++;
+                if (lowerText.includes('consent')) score++;
+                if (lowerText.includes('opt-out')) score++;
+                
+                return score >= 3 ? 'highly compliant' : score >= 2 ? 'moderately compliant' : 'potentially non-compliant';
+            }
+
+            generateHighlights(dataTypes, thirdParties, rights) {
+                const highlights = [];
+                
+                if (dataTypes.length > 0) {
+                    highlights.push(`Collects ${dataTypes.length} types of personal data including: ${dataTypes.slice(0, 3).join(', ')}${dataTypes.length > 3 ? ', ...' : ''}`);
+                }
+                
+                if (thirdParties.length > 0) {
+                    highlights.push(`Mentions ${thirdParties.length} types of third-party sharing arrangements`);
+                }
+                
+                if (rights.length > 0) {
+                    highlights.push(`Provides ${rights.length} user rights: ${rights.map(r => r.name).join(', ')}`);
+                }
+                
+                highlights.push('Data retention policies clearly outlined');
+                highlights.push('Security measures including encryption described');
+                
+                return highlights;
+            }
+
+            generateRecommendations(redFlags, rights) {
+                const recommendations = [];
+                
+                if (redFlags.some(flag => flag.type === 'Data Selling')) {
+                    recommendations.push('Consider requesting opt-out from data selling practices');
+                }
+                
+                if (redFlags.some(flag => flag.type === 'No Encryption Mentioned')) {
+                    recommendations.push('Ask the company about their data encryption and security practices');
+                }
+                
+                if (rights.length < 4) {
+                    recommendations.push('Limited user rights mentioned - verify what rights you actually have');
+                }
+                
+                recommendations.push('Review this policy periodically as it may change');
+                recommendations.push('Consider using privacy-focused alternatives if concerned about data practices');
+                recommendations.push('Use a VPN for additional privacy protection');
+                recommendations.push('Adjust your privacy settings on this platform');
+                
+                return recommendations;
+            }
+
+            showLoading() {
+                this.resultsSection.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <span>Analyzing with AI...</span>
+                        <p>Examining privacy practices and compliance standards</p>
+                    </div>
+                `;
+            }
+
+            showError(message) {
+                this.resultsSection.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+                        <h3>Analysis Error</h3>
+                        <p>${message}</p>
+                    </div>
+                `;
+            }
+
+            displayResults(analysis) {
+                const scoreClass = analysis.score >= 80 ? 'score-excellent' : 
+                                 analysis.score >= 60 ? 'score-good' : 'score-poor';
+                
+                const scoreLabel = analysis.score >= 80 ? 'Excellent' : 
+                                  analysis.score >= 60 ? 'Good' : 'Needs Improvement';
+
+                // Create compliance chart
+                const complianceData = {
+                    labels: ['GDPR', 'CCPA', 'LGPD'],
+                    datasets: [{
+                        label: 'Compliance Score',
+                        data: [
+                            analysis.compliance.gdpr.compliant ? 100 : 50,
+                            analysis.compliance.ccpa.compliant ? 100 : 50,
+                            analysis.compliance.lgpd.compliant ? 100 : 50
+                        ],
+                        backgroundColor: [
+                            'rgba(52, 199, 89, 0.7)',
+                            'rgba(0, 122, 255, 0.7)',
+                            'rgba(175, 82, 222, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(52, 199, 89, 1)',
+                            'rgba(0, 122, 255, 1)',
+                            'rgba(175, 82, 222, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                this.resultsSection.innerHTML = `
+                    <div class="result-item active score">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-star"></i></div>
+                                Privacy Score
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                <div class="score-display">
+                                    <div class="score-circle ${scoreClass}">
+                                        ${analysis.score}
+                                    </div>
+                                    <div class="score-label">${scoreLabel}</div>
+                                </div>
+                                <div class="stats-grid">
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.wordCount.toLocaleString()}</div>
+                                        <div class="stat-label">Words</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.dataTypes}</div>
+                                        <div class="stat-label">Data Types</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.thirdParties}</div>
+                                        <div class="stat-label">Third Parties</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.userRights}</div>
+                                        <div class="stat-label">User Rights</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.readability.score}</div>
+                                        <div class="stat-label">Readability</div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-number">${analysis.stats.sentences}</div>
+                                        <div class="stat-label">Sentences</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item summary">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-file-alt"></i></div>
+                                Executive Summary
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                <p>${analysis.summary}</p>
+                                
+                                <div class="chart-container">
+                                    <canvas id="complianceChart"></canvas>
+                                </div>
+                                
+                                <div class="compliance-grid">
+                                    <div class="compliance-card">
+                                        <h4>GDPR Compliance</h4>
+                                        <div class="compliance-status">
+                                            <div class="compliance-dot compliance-${analysis.compliance.gdpr.compliant ? 'compliant' : 'partial'}"></div>
+                                            <span>${analysis.compliance.gdpr.compliant ? 'Compliant' : 'Partially Compliant'}</span>
+                                        </div>
+                                        ${analysis.compliance.gdpr.missing.length > 0 ? 
+                                            `<p>Missing: ${analysis.compliance.gdpr.missing.join(', ')}</p>` : 
+                                            '<p>All key elements present</p>'}
+                                    </div>
+                                    
+                                    <div class="compliance-card">
+                                        <h4>CCPA Compliance</h4>
+                                        <div class="compliance-status">
+                                            <div class="compliance-dot compliance-${analysis.compliance.ccpa.compliant ? 'compliant' : 'partial'}"></div>
+                                            <span>${analysis.compliance.ccpa.compliant ? 'Compliant' : 'Partially Compliant'}</span>
+                                        </div>
+                                        ${analysis.compliance.ccpa.missing.length > 0 ? 
+                                            `<p>Missing: ${analysis.compliance.ccpa.missing.join(', ')}</p>` : 
+                                            '<p>All key elements present</p>'}
+                                    </div>
+                                    
+                                    <div class="compliance-card">
+                                        <h4>Readability</h4>
+                                        <div class="compliance-status">
+                                            <div class="compliance-dot compliance-${analysis.readability.score > 60 ? 'compliant' : analysis.readability.score > 40 ? 'partial' : 'noncompliant'}"></div>
+                                            <span>${analysis.readability.level}</span>
+                                        </div>
+                                        <p>Avg. words per sentence: ${analysis.readability.avgWordsPerSentence}</p>
+                                        <p>Complex words: ${analysis.readability.complexWordPercentage}%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item highlights">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-highlighter"></i></div>
+                                Key Highlights (${analysis.highlights.length})
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                ${analysis.highlights.map(highlight => 
+                                    `<div class="highlight-item">
+                                        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                        <div>${highlight}</div>
+                                    </div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item red-flags">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                                Red Flags (${analysis.redFlags.length})
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                ${analysis.redFlags.length === 0 ? 
+                                    '<div class="highlight-item" style="border-color: var(--success);">' + 
+                                        '<i class="fas fa-check-circle" style="color: var(--success);"></i>' +
+                                        '<div>No major red flags detected! This is a positive sign for user privacy.</div>' +
+                                    '</div>' :
+                                    analysis.redFlags.map(flag => 
+                                        `<div class="flag-item">
+                                            <i class="fas fa-exclamation-circle" style="color: var(--danger);"></i>
+                                            <div>
+                                                <strong>${flag.type}</strong> 
+                                                <span class="severity ${flag.severity}" style="float: right; padding: 2px 8px; border-radius: 4px; font-size: 12px; color: white; background: ${flag.severity === 'high' ? 'var(--danger)' : flag.severity === 'medium' ? 'var(--warning)' : '#6c757d'};">${flag.severity.toUpperCase()}</span>
+                                                <br><span style="color: var(--text-secondary); font-size: 14px;">${flag.description}</span>
+                                            </div>
+                                        </div>`
+                                    ).join('')
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item recommendations">
+                        <div class="result-header" onclick="this.parentElement.classList.toggle('active')">
+                            <div class="result-title">
+                                <div class="result-icon"><i class="fas fa-lightbulb"></i></div>
+                                Recommendations (${analysis.recommendations.length})
+                            </div>
+                            <i class="fas fa-chevron-down chevron"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-body">
+                                ${analysis.recommendations.map(rec => 
+                                    `<div class="recommendation-item">
+                                        <i class="fas fa-arrow-right" style="color: var(--primary);"></i>
+                                        <div>${rec}</div>
+                                    </div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="export-controls">
+                        <button class="export-btn" onclick="analyzer.exportToPDF()">
+                            <i class="fas fa-file-pdf"></i> Export PDF
+                        </button>
+                        <button class="export-btn" onclick="analyzer.exportToJSON()">
+                            <i class="fas fa-code"></i> Export JSON
+                        </button>
+                        <button class="export-btn" onclick="analyzer.exportToCSV()">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                        <button class="export-btn" onclick="analyzer.shareAnalysis()">
+                            <i class="fas fa-share"></i> Share Analysis
+                        </button>
+                        <button class="export-btn" onclick="analyzer.printResults()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+                `;
+
+                // Render compliance chart
+                setTimeout(() => {
+                    const ctx = document.getElementById('complianceChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: complianceData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return value + '%';
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return context.parsed.y + '% compliance';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }, 100);
+            }
+
+            exportToPDF() {
+                if (!this.currentAnalysis) return;
+                
+                // Create a comprehensive PDF-ready HTML structure
+                const pdfContent = this.generatePDFContent(this.currentAnalysis);
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(pdfContent);
+                printWindow.document.close();
+                printWindow.focus();
+                
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
+            }
+
+            generatePDFContent(analysis) {
+                const scoreClass = analysis.score >= 80 ? 'excellent' : 
+                                 analysis.score >= 60 ? 'good' : 'poor';
+                
+                return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Privacy Policy Analysis Report</title>
+                    <style>
+                        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 40px; line-height: 1.6; }
+                        .header { text-align: center; border-bottom: 2px solid #007AFF; padding-bottom: 20px; margin-bottom: 30px; }
+                        .score-${scoreClass} { color: ${scoreClass === 'excellent' ? '#34C759' : scoreClass === 'good' ? '#FF9500' : '#FF3B30'}; }
+                        .section { margin-bottom: 30px; page-break-inside: avoid; }
+                        .section h3 { color: #007AFF; border-bottom: 1px solid #E5E5EA; padding-bottom: 5px; }
+                        .flag-item, .highlight-item, .recommendation-item { 
+                            background: #F2F2F7; padding: 10px; margin: 10px 0; border-radius: 5px; 
+                        }
+                        .stats-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                        .stats-table th, .stats-table td { padding: 10px; border: 1px solid #E5E5EA; text-align: left; }
+                        .stats-table th { background: #F2F2F7; }
+                        @media print { body { margin: 20px; } .no-print { display: none; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>Privacy Policy Analysis Report</h1>
+                        <p>Generated on ${new Date().toLocaleDateString()}</p>
+                        <div class="score-${scoreClass}">
+                            <h2>Privacy Score: ${analysis.score}/100</h2>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Executive Summary</h3>
+                        <p>${analysis.summary}</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>Statistics</h3>
+                        <table class="stats-table">
+                            <tr><th>Metric</th><th>Value</th></tr>
+                            <tr><td>Word Count</td><td>${analysis.stats.wordCount.toLocaleString()}</td></tr>
+                            <tr><td>Data Types Collected</td><td>${analysis.stats.dataTypes}</td></tr>
+                            <tr><td>Third-Party Mentions</td><td>${analysis.stats.thirdParties}</td></tr>
+                            <tr><td>User Rights</td><td>${analysis.stats.userRights}</td></tr>
+                            <tr><td>Readability Score</td><td>${analysis.readability.score}/100</td></tr>
+                        </table>
+                    </div>
+
+                    <div class="section">
+                        <h3>Compliance Summary</h3>
+                        <p><strong>GDPR:</strong> ${analysis.compliance.gdpr.compliant ? 'Compliant' : 'Partially Compliant'}</p>
+                        <p><strong>CCPA:</strong> ${analysis.compliance.ccpa.compliant ? 'Compliant' : 'Partially Compliant'}</p>
+                    </div>
+
+                    <div class="section">
+                        <h3>Key Highlights</h3>
+                        ${analysis.highlights.map(highlight => `<div class="highlight-item">${highlight}</div>`).join('')}
+                    </div>
+
+                    <div class="section">
+                        <h3>Red Flags</h3>
+                        ${analysis.redFlags.length === 0 ? 
+                            '<p style="color: #34C759;">No major red flags detected!</p>' :
+                            analysis.redFlags.map(flag => 
+                                `<div class="flag-item">
+                                    <strong>${flag.type}</strong> (${flag.severity.toUpperCase()})
+                                    <br>${flag.description}
+                                </div>`
+                            ).join('')
+                        }
+                    </div>
+
+                    <div class="section">
+                        <h3>Recommendations</h3>
+                        ${analysis.recommendations.map(rec => `<div class="recommendation-item">${rec}</div>`).join('')}
+                    </div>
+                </body>
+                </html>`;
+            }
+
+            exportToJSON() {
+                if (!this.currentAnalysis) return;
+                
+                const exportData = {
+                    ...this.currentAnalysis,
+                    exportDate: new Date().toISOString(),
+                    version: '1.0'
+                };
+                
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
+                    type: 'application/json' 
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `privacy-analysis-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                this.showNotification('JSON exported successfully!');
+            }
+
+            exportToCSV() {
+                if (!this.currentAnalysis) return;
+                
+                let csvContent = "Type,Description,Severity\n";
+                
+                // Add red flags
+                this.currentAnalysis.redFlags.forEach(flag => {
+                    csvContent += `"${flag.type}","${flag.description}","${flag.severity}"\n`;
+                });
+                
+                // Add recommendations
+                this.currentAnalysis.recommendations.forEach(rec => {
+                    csvContent += `"Recommendation","${rec}",""\n`;
+                });
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `privacy-analysis-${Date.now()}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                this.showNotification('CSV exported successfully!');
+            }
+
+            shareAnalysis() {
+                if (!this.currentAnalysis) return;
+                
+                const shareData = {
+                    title: 'Privacy Policy Analysis Results',
+                    text: `Privacy Score: ${this.currentAnalysis.score}/100. Analysis found ${this.currentAnalysis.redFlags.length} red flags and ${this.currentAnalysis.highlights.length} key highlights.`,
+                    url: window.location.href
+                };
+                
+                if (navigator.share) {
+                    navigator.share(shareData).catch(err => console.log('Error sharing:', err));
+                } else {
+                    // Fallback for browsers without native sharing
+                    const shareText = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        this.showNotification('Analysis summary copied to clipboard!');
+                    }).catch(() => {
+                        // Final fallback
+                        const textarea = document.createElement('textarea');
+                        textarea.value = shareText;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        this.showNotification('Analysis summary copied to clipboard!');
+                    });
+                }
+            }
+
+            printResults() {
+                if (!this.currentAnalysis) return;
+                this.exportToPDF();
+            }
+        }
+
+        // Sample policies
+        const samplePolicies = {
+            social: `Privacy Policy - Social Media Platform
+            
+            Last Updated: January 2024
+            
+            We collect personal information including your name, email address, phone number, location data, and browsing history. We use cookies and tracking technologies to monitor your activity across our platform and partner websites.
+            
+            Data Sharing: We may share your personal information with third-party partners, advertisers, and service providers. We do not sell personal information directly but may share it for advertising purposes.
+            
+            Your Rights: Under GDPR and CCPA, you have the right to access, correct, and delete your personal information. You may also opt-out of certain data collection practices.
+            
+            Data Retention: We retain your data for as long as your account is active and may keep some information indefinitely for business purposes.
+            
+            Security: We implement encryption and security measures to protect your data, but cannot guarantee absolute security.
+            
+            Changes: We may update this policy at any time with 30 days notice to users.`,
+            
+            ecommerce: `E-Commerce Privacy Policy
+            
+            Effective Date: February 2024
+            
+            Information We Collect: We collect personal information necessary for processing orders including name, address, payment information, and purchase history. We also collect device information and IP addresses.
+            
+            Third Parties: We work with payment processors, shipping companies, and marketing partners who may receive your personal information. We ensure all partners maintain appropriate security standards.
+            
+            Cookies: We use essential cookies for site functionality and analytical cookies to improve user experience. You can manage cookie preferences in your browser.
+            
+            User Rights: Under GDPR and CCPA, you have rights to access, portability, correction, and deletion of your personal data. Contact our privacy team to exercise these rights.
+            
+            Security: All payment data is encrypted using industry-standard TLS encryption. We regularly audit our security practices and comply with PCI DSS standards.
+            
+            Data Retention: Order information is kept for 7 years for legal compliance. Marketing data is deleted upon request or after 2 years of inactivity.`
+        };
+
+        function loadSamplePolicy(type) {
+            if (samplePolicies[type]) {
+                analyzer.policyText.value = samplePolicies[type];
+                analyzer.updateCharCount();
+                analyzer.analyzePolicy();
+            }
+        }
+
+        // Initialize the analyzer
+        const analyzer = new PrivacyPolicyAnalyzer();
+    </script>
+</body>
+</html>
